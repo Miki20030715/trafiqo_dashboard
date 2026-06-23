@@ -21,6 +21,7 @@ export default defineConfig({
           leaflet: ['leaflet', 'react-leaflet'],
           i18n: ['i18next', 'react-i18next'],
           supabase: ['@supabase/supabase-js'],
+          charts: ['recharts'],
         },
       },
     },

@@ -1,14 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import { ShieldCheck } from 'lucide-react'
+import { ShieldCheck, MessageSquarePlus } from 'lucide-react'
 import TrafiqoLogo from '@/components/brand/TrafiqoLogo'
 import MtaiLogo from '@/components/brand/MtaiLogo'
 import { type AppView } from './views'
 
 interface FooterProps {
   onNavigate: (view: AppView) => void
+  onFeedback?: () => void
 }
 
-export function Footer({ onNavigate }: FooterProps) {
+export function Footer({ onNavigate, onFeedback }: FooterProps) {
   const { t } = useTranslation()
 
   return (
@@ -19,14 +20,26 @@ export function Footer({ onNavigate }: FooterProps) {
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/70">
             {t('footer.decisionSupportNote')}
           </p>
-          <button
-            type="button"
-            onClick={() => onNavigate('trust')}
-            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-white/10 px-3.5 py-2 text-sm font-medium text-white ring-1 ring-white/15 transition hover:bg-white/15"
-          >
-            <ShieldCheck className="h-4 w-4" />
-            {t('footer.dataGovernance')}
-          </button>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => onNavigate('trust')}
+              className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-3.5 py-2 text-sm font-medium text-white ring-1 ring-white/15 transition hover:bg-white/15"
+            >
+              <ShieldCheck className="h-4 w-4" />
+              {t('footer.dataGovernance')}
+            </button>
+            {onFeedback && (
+              <button
+                type="button"
+                onClick={onFeedback}
+                className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-3.5 py-2 text-sm font-medium text-white ring-1 ring-white/15 transition hover:bg-white/15"
+              >
+                <MessageSquarePlus className="h-4 w-4" />
+                {t('footer.feedbackButton')}
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Technology & deployment partner */}

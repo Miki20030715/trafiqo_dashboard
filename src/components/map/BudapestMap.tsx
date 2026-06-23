@@ -9,6 +9,7 @@ import {
   CONGESTION_COLORS,
 } from './mapConfig'
 import { hasTomTom, tomtomTrafficFlowUrl } from '@/lib/tomtom'
+import SimulationLayer from './SimulationLayer'
 
 /** Recomputes map size when its container changes (e.g. fullscreen toggle). */
 function MapResizer({ trigger }: { trigger: unknown }) {
@@ -25,9 +26,11 @@ interface BudapestMapProps {
   showTraffic: boolean
   /** Any value that changes when the container resizes, to trigger invalidateSize. */
   resizeTrigger: unknown
+  /** Show synthetic simulation agents (pedestrians + animals). */
+  showAgents?: boolean
 }
 
-export function BudapestMap({ showTraffic, resizeTrigger }: BudapestMapProps) {
+export function BudapestMap({ showTraffic, resizeTrigger, showAgents = false }: BudapestMapProps) {
   const live = hasTomTom()
 
   return (
@@ -36,7 +39,7 @@ export function BudapestMap({ showTraffic, resizeTrigger }: BudapestMapProps) {
       zoom={DEFAULT_ZOOM}
       minZoom={MIN_ZOOM}
       maxZoom={MAX_ZOOM}
-      scrollWheelZoom // wheel zoom only when the cursor is over the map (Leaflet default)
+      scrollWheelZoom
       className="h-full w-full bg-slate-100"
       zoomControl
     >
@@ -71,6 +74,9 @@ export function BudapestMap({ showTraffic, resizeTrigger }: BudapestMapProps) {
             <Tooltip sticky>{c.name}</Tooltip>
           </Polyline>
         ))}
+
+      {/* Synthetic simulation agents — fixed pixel size, won't shrink on zoom */}
+      {showAgents && <SimulationLayer />}
     </MapContainer>
   )
 }

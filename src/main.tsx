@@ -5,11 +5,14 @@ import 'leaflet/dist/leaflet.css'
 import './index.css'
 import App from './App'
 import { AuthProvider } from '@/auth/AuthContext'
+import { GamificationProvider } from '@/lib/gamification'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <App />
+      <GamificationProvider>
+        <App />
+      </GamificationProvider>
     </AuthProvider>
   </StrictMode>,
 )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Maximize2, Minimize2, Layers, Activity, FlaskConical } from 'lucide-react'
+import { Maximize2, Minimize2, Layers, Activity, FlaskConical, PersonStanding } from 'lucide-react'
 import BudapestMap from './BudapestMap'
 import { hasTomTom } from '@/lib/tomtom'
 
@@ -9,6 +9,7 @@ export function MapView() {
   const live = hasTomTom()
   const [fullscreen, setFullscreen] = useState(false)
   const [showTraffic, setShowTraffic] = useState(true)
+  const [showAgents, setShowAgents] = useState(false)
 
   useEffect(() => {
     if (!fullscreen) return
@@ -26,7 +27,7 @@ export function MapView() {
   return (
     <div className={containerCls}>
       <div className="absolute inset-0">
-        <BudapestMap showTraffic={showTraffic} resizeTrigger={fullscreen} />
+        <BudapestMap showTraffic={showTraffic} resizeTrigger={fullscreen} showAgents={showAgents} />
       </div>
 
       {/* Top-left: title + data-source / model label */}
@@ -49,6 +50,22 @@ export function MapView() {
 
       {/* Top-right: controls */}
       <div className="absolute right-3 top-3 z-[500] flex items-center gap-2">
+        {/* Simulation agents toggle */}
+        <button
+          type="button"
+          onClick={() => setShowAgents((v) => !v)}
+          aria-pressed={showAgents}
+          title={t('map.simulationAgents')}
+          className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium shadow-card ring-1 backdrop-blur transition ${
+            showAgents
+              ? 'bg-amber-500 text-white ring-amber-600'
+              : 'bg-white/95 text-ink-soft ring-slate-200 hover:bg-white'
+          }`}
+        >
+          <PersonStanding className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('map.showAgents')}</span>
+        </button>
+
         {live && (
           <button
             type="button"
@@ -96,6 +113,23 @@ export function MapView() {
           <p className="mt-2 max-w-[12rem] text-[0.65rem] leading-snug text-ink-muted">
             {t('map.modelNote')}
           </p>
+        )}
+        {showAgents && (
+          <div className="mt-2 border-t border-slate-200 pt-2">
+            <p className="mb-1 text-[0.7rem] font-semibold uppercase tracking-wide text-ink-muted">
+              {t('map.simulationAgents')}
+            </p>
+            <div className="flex flex-col gap-1 text-xs text-ink-soft">
+              <span className="flex items-center gap-2">
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-brand-500 text-[0.6rem] text-white">🚶</span>
+                {t('simulation.pedestrianLabel')}
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[0.6rem]">🐦</span>
+                {t('simulation.animalLabel')}
+              </span>
+            </div>
+          </div>
         )}
       </div>
     </div>
