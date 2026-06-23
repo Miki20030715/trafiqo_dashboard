@@ -1,6 +1,7 @@
-Brand colors:
-  - Magenta (primary): #D6206B
-  - Orange (accent): #F5821F
-  - Green (accent): #1FA86B
+Brand colors (aligned to the official Trafiqo logo — source of truth):
+  - Blue (primary): #1B72E8
+  - Green (accent): #2DA84A
+  - Yellow (accent): #F8B500
+  - Red (accent / signature dot): #EA4335
   Tagline: Smarter choices. Smoother cities.
   Tone: professional, concise, B2G, evidence-oriented, not overhyped.
