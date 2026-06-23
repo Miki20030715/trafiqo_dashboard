@@ -1,0 +1,72 @@
+{
+  "common": {
+    "appName": "Trafiqo",
+    "tagline": "Smarter choices. Smoother cities.",
+    "taglineHu": "Smarter choices. Smoother cities.",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "continueAsGuest": "Continue as guest",
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "close": "Close",
+    "language": "Language",
+    "comingSoon": "Coming soon"
+  },
+  "login": {
+    "welcome": "Welcome to Trafiqo",
+    "subtitle": "Decision-support platform for urban mobility — with human oversight.",
+    "commercialHero": "Trafiqo gives cities a privacy-first way to see how people will respond — before congestion happens.",
+    "emailPlaceholder": "name@city.gov",
+    "passwordPlaceholder": "Password",
+    "namePlaceholder": "Full name",
+    "signInCta": "Sign in",
+    "createAccountCta": "Create account",
+    "guestCta": "Enter as guest (demo)",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already have an account?",
+    "switchToSignUp": "Sign up",
+    "switchToSignIn": "Sign in",
+    "demoBadge": "Demo mode — try it without a real account",
+    "supabaseConnected": "Supabase authentication active",
+    "orDivider": "or"
+  },
+  "header": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "userMenu": "User menu",
+    "profile": "Profile",
+    "points": "pts",
+    "controlCenter": "City Control Center",
+    "role": "Role"
+  },
+  "footer": {
+    "partnerHeading": "Technology & deployment partner",
+    "decisionSupportNote": "Trafiqo is a decision-support platform with human oversight — not an autonomous system. Cities and transport authorities stay in control.",
+    "dataGovernance": "Trust & Data Governance",
+    "rightsReserved": "All rights reserved.",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal"
+  },
+  "nav": {
+    "dashboard": "Overview",
+    "map": "Map",
+    "routes": "Route planning",
+    "roles": "Who are you?",
+    "metrics": "Metrics",
+    "rewards": "Rewards",
+    "profile": "Profile",
+    "cityControl": "City Control Center",
+    "trust": "Trust"
+  },
+  "shell": {
+    "skeletonTitle": "App shell is ready",
+    "skeletonBody": "Upcoming steps drop the Budapest map, route planner, roles, metrics and the other modules into this area."
+  }
+}

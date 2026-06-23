@@ -1,0 +1,72 @@
+{
+  "common": {
+    "appName": "Trafiqo",
+    "tagline": "Smarter choices. Smoother cities.",
+    "taglineHu": "Okosabb döntések. Gördülékenyebb városok.",
+    "signIn": "Bejelentkezés",
+    "signOut": "Kijelentkezés",
+    "signUp": "Regisztráció",
+    "email": "E-mail",
+    "password": "Jelszó",
+    "name": "Név",
+    "continueAsGuest": "Folytatás vendégként",
+    "loading": "Betöltés…",
+    "save": "Mentés",
+    "cancel": "Mégse",
+    "edit": "Szerkesztés",
+    "close": "Bezárás",
+    "language": "Nyelv",
+    "comingSoon": "Hamarosan"
+  },
+  "login": {
+    "welcome": "Üdvözli a Trafiqo",
+    "subtitle": "Döntéstámogató városi mobilitási platform — emberi felügyelet mellett.",
+    "commercialHero": "A Trafiqo adatvédelem-központú módot ad a városoknak arra, hogy lássák, hogyan reagálnak az emberek — még mielőtt kialakulna a torlódás.",
+    "emailPlaceholder": "nev@varos.hu",
+    "passwordPlaceholder": "Jelszó",
+    "namePlaceholder": "Teljes név",
+    "signInCta": "Bejelentkezés",
+    "createAccountCta": "Fiók létrehozása",
+    "guestCta": "Belépés vendégként (demó)",
+    "noAccount": "Nincs még fiókja?",
+    "haveAccount": "Van már fiókja?",
+    "switchToSignUp": "Regisztráljon",
+    "switchToSignIn": "Jelentkezzen be",
+    "demoBadge": "Demó mód — valódi fiók nélkül is kipróbálható",
+    "supabaseConnected": "Supabase hitelesítés aktív",
+    "orDivider": "vagy"
+  },
+  "header": {
+    "openMenu": "Menü megnyitása",
+    "closeMenu": "Menü bezárása",
+    "userMenu": "Felhasználói menü",
+    "profile": "Profil",
+    "points": "Pont",
+    "controlCenter": "Városi vezérlőközpont",
+    "role": "Szerepkör"
+  },
+  "footer": {
+    "partnerHeading": "Technológiai és bevezetési partner",
+    "decisionSupportNote": "A Trafiqo döntéstámogató platform emberi felügyelettel — nem autonóm rendszer. A városok és a közlekedési hatóságok megtartják az irányítást.",
+    "dataGovernance": "Adatkezelés és bizalom",
+    "rightsReserved": "Minden jog fenntartva.",
+    "product": "Termék",
+    "company": "Vállalat",
+    "legal": "Jogi"
+  },
+  "nav": {
+    "dashboard": "Áttekintés",
+    "map": "Térkép",
+    "routes": "Útvonaltervezés",
+    "roles": "Ki Ön?",
+    "metrics": "Mérőszámok",
+    "rewards": "Jutalmak",
+    "profile": "Profil",
+    "cityControl": "Városi vezérlőközpont",
+    "trust": "Bizalom"
+  },
+  "shell": {
+    "skeletonTitle": "Az alkalmazás váza készen áll",
+    "skeletonBody": "A következő lépésekben ide kerül a budapesti térkép, az útvonaltervező, a szerepkörök, a mérőszámok és a többi modul."
+  }
+}
