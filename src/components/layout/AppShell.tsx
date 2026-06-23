@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Map, Route, Users, Gauge, Trophy, ShieldCheck, Building2, LayoutGrid } from 'lucide-react'
 import Header from './Header'
 import Footer from './Footer'
+import MapView from '@/components/map/MapView'
 import { type AppView } from './views'
 
 const VIEW_META: Record<Exclude<AppView, 'dashboard' | 'profile'>, { icon: typeof Map; labelKey: string }> = {
@@ -33,29 +34,17 @@ function ViewPlaceholder({ view }: { view: AppView }) {
   )
 }
 
-function DashboardSkeleton() {
-  const { t } = useTranslation()
-  return (
-    <div className="mx-auto max-w-3xl px-6 py-16 text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white">
-        <LayoutGrid className="h-8 w-8" />
-      </div>
-      <h1 className="mt-6 text-2xl font-bold text-ink">{t('shell.skeletonTitle')}</h1>
-      <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">
-        {t('shell.skeletonBody')}
-      </p>
-    </div>
-  )
-}
-
 export function AppShell() {
   const [view, setView] = useState<AppView>('dashboard')
+
+  // The Budapest map is the centerpiece — it fills the main area on the dashboard and map views.
+  const showMap = view === 'dashboard' || view === 'map'
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
       <Header activeView={view} onNavigate={setView} />
       <main className="flex flex-1 flex-col">
-        {view === 'dashboard' ? <DashboardSkeleton /> : <ViewPlaceholder view={view} />}
+        {showMap ? <MapView /> : <ViewPlaceholder view={view} />}
       </main>
       <Footer onNavigate={setView} />
     </div>

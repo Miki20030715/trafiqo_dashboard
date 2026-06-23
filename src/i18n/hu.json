@@ -65,6 +65,19 @@
     "cityControl": "Városi vezérlőközpont",
     "trust": "Bizalom"
   },
+  "map": {
+    "title": "Budapesti forgalom",
+    "sourceLive": "TomTom · élő",
+    "modelLabel": "Viselkedési modell",
+    "trafficLayer": "Forgalmi réteg",
+    "fullscreen": "Teljes képernyő",
+    "exitFullscreen": "Kilépés",
+    "legendTitle": "Forgalom",
+    "legendFree": "Szabad",
+    "legendModerate": "Lassuló",
+    "legendHeavy": "Torlódás",
+    "modelNote": "Behavioural model / Viselkedési modell — modellezett forgalom, nem mért adat."
+  },
   "shell": {
     "skeletonTitle": "Az alkalmazás váza készen áll",
     "skeletonBody": "A következő lépésekben ide kerül a budapesti térkép, az útvonaltervező, a szerepkörök, a mérőszámok és a többi modul."

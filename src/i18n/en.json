@@ -65,6 +65,19 @@
     "cityControl": "City Control Center",
     "trust": "Trust"
   },
+  "map": {
+    "title": "Budapest traffic",
+    "sourceLive": "TomTom · live",
+    "modelLabel": "Behavioural model",
+    "trafficLayer": "Traffic layer",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit",
+    "legendTitle": "Traffic",
+    "legendFree": "Free-flowing",
+    "legendModerate": "Slowing",
+    "legendHeavy": "Congested",
+    "modelNote": "Behavioural model / Viselkedési modell — modelled traffic, not measured data."
+  },
   "shell": {
     "skeletonTitle": "App shell is ready",
     "skeletonBody": "Upcoming steps drop the Budapest map, route planner, roles, metrics and the other modules into this area."
