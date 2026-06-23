@@ -1,5 +1,5 @@
 /**
- * Trafiqo logo — faithful recreation in the brand palette (magenta / orange / green).
+ * Trafiqo logo — faithful recreation aligned to the official logo palette (blue / green / yellow / red).
  *
  * This is a swap-in stand-in for the official asset. When the official PNG/SVG lands in
  * /context (or /public), replace the <TrafiqoMark /> body and/or the wordmark below — the
@@ -31,8 +31,8 @@ function TrafiqoMark({ className = 'h-9 w-9' }: { className?: string }) {
     >
       <defs>
         <linearGradient id="tq-tile" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#E34585" />
-          <stop offset="1" stopColor="#D6206B" />
+          <stop stopColor="#1B72E8" />
+          <stop offset="1" stopColor="#124C9B" />
         </linearGradient>
       </defs>
       <rect width="48" height="48" rx="13" fill="url(#tq-tile)" />
@@ -46,11 +46,11 @@ function TrafiqoMark({ className = 'h-9 w-9' }: { className?: string }) {
       />
       {/* Start node (green accent) */}
       <circle cx="13.5" cy="35.5" r="4.4" fill="#FFFFFF" />
-      <circle cx="13.5" cy="35.5" r="2.4" fill="#1FA86B" />
-      {/* Mid waypoint */}
-      <circle cx="24.4" cy="24" r="2" fill="#FFFFFF" opacity="0.85" />
-      {/* Destination pin (orange accent) */}
-      <circle cx="35" cy="13" r="4.8" fill="#F5821F" />
+      <circle cx="13.5" cy="35.5" r="2.4" fill="#2DA84A" />
+      {/* Mid waypoint (signature red dot) */}
+      <circle cx="24.4" cy="24" r="2.2" fill="#EA4335" />
+      {/* Destination pin (yellow accent) */}
+      <circle cx="35" cy="13" r="4.8" fill="#F8B500" />
       <circle cx="35" cy="13" r="2.1" fill="#FFFFFF" />
     </svg>
   )
@@ -64,8 +64,8 @@ export function TrafiqoLogo({
   markClassName = 'h-9 w-9',
   wordmarkClassName = 'text-2xl',
 }: TrafiqoLogoProps) {
-  const inkColor = tone === 'light' ? 'text-white' : 'text-ink'
-  const accentColor = tone === 'light' ? 'text-brand-300' : 'text-brand-500'
+  const mainColor = tone === 'light' ? 'text-white' : 'text-brand-700'
+  const accentColor = tone === 'light' ? 'text-amber-400' : 'text-amber-500'
   const taglineColor = tone === 'light' ? 'text-white/70' : 'text-ink-muted'
 
   if (variant === 'mark') {
@@ -74,7 +74,7 @@ export function TrafiqoLogo({
 
   const Wordmark = (
     <span className={`font-extrabold leading-none tracking-tight ${wordmarkClassName}`}>
-      <span className={inkColor}>TRAFIQ</span>
+      <span className={mainColor}>TRAFIQ</span>
       <span className={accentColor}>O</span>
     </span>
   )

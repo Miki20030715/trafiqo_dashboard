@@ -84,7 +84,7 @@ export function Header({ activeView, onNavigate, points = 0 }: HeaderProps) {
 
           {/* Points balance (placeholder until step 6) */}
           <div
-            className="inline-flex items-center gap-1.5 rounded-lg bg-orange-50 px-2.5 py-1.5 text-sm font-semibold text-orange-700 ring-1 ring-orange-100"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 px-2.5 py-1.5 text-sm font-semibold text-amber-700 ring-1 ring-amber-100"
             title={t('header.points')}
           >
             <Trophy className="h-4 w-4" />

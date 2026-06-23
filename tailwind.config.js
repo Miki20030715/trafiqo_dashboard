@@ -4,42 +4,55 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Trafiqo brand palette (from /context/brand_colors.txt)
+        // Trafiqo brand palette — aligned to the official logo (blue / green / yellow / red).
+        // Blue is primary; green, amber (yellow) and red are the logo accents.
         brand: {
-          50: '#FCE7F0',
-          100: '#F9CFE0',
-          200: '#F2A0C2',
-          300: '#EB70A3',
-          400: '#E34585',
-          500: '#D6206B', // Magenta — primary
-          600: '#B81A5B',
-          700: '#8F1447',
-          800: '#660E33',
-          900: '#3D0820',
-        },
-        orange: {
-          50: '#FEF1E4',
-          100: '#FDE3C9',
-          200: '#FBC793',
-          300: '#F9AB5D',
-          400: '#F79538',
-          500: '#F5821F', // Orange — accent
-          600: '#D66C12',
-          700: '#A8540E',
-          800: '#7A3C0A',
-          900: '#4D2606',
+          50: '#EFF5FE',
+          100: '#D9E7FC',
+          200: '#AECCF8',
+          300: '#7DAEF3',
+          400: '#4B90EE',
+          500: '#1B72E8', // Blue — primary
+          600: '#1660C4',
+          700: '#124C9B',
+          800: '#0E3A75',
+          900: '#0A2A55',
         },
         green: {
-          50: '#E4F6EE',
-          100: '#C9EDDD',
-          200: '#93DBBB',
-          300: '#5DC999',
-          400: '#38BA82',
-          500: '#1FA86B', // Green — accent
-          600: '#1A8C59',
-          700: '#146B45',
-          800: '#0E4A30',
-          900: '#08291B',
+          50: '#EBF8EE',
+          100: '#D2F0D9',
+          200: '#A6E0B3',
+          300: '#74CE89',
+          400: '#46BC62',
+          500: '#2DA84A', // Green — accent
+          600: '#248B3D',
+          700: '#1B6B2F',
+          800: '#134B21',
+          900: '#0B2E14',
+        },
+        amber: {
+          50: '#FFF9E9',
+          100: '#FEF1CE',
+          200: '#FDE49C',
+          300: '#FCD566',
+          400: '#FBC62F',
+          500: '#F8B500', // Yellow — accent
+          600: '#D29800',
+          700: '#A37600',
+          800: '#745300',
+          900: '#463200',
+        },
+        red: {
+          50: '#FDEDEC',
+          100: '#FBD9D6',
+          200: '#F8BAB5',
+          300: '#F39189',
+          400: '#EF6A5E',
+          500: '#EA4335', // Red — accent / signature dot
+          600: '#C9342A',
+          700: '#9F2820',
+          800: '#741C17',
+          900: '#4A110E',
         },
         ink: {
           DEFAULT: '#1A1B25',

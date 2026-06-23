@@ -36,7 +36,7 @@ export function LoginScreen() {
       {/* Brand panel */}
       <div className="relative flex flex-col justify-between overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 px-8 py-10 text-white lg:w-[46%] lg:px-12 lg:py-14">
         <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
-        <div className="absolute -bottom-20 -left-10 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
+        <div className="absolute -bottom-20 -left-10 h-72 w-72 rounded-full bg-amber-500/20 blur-3xl" />
 
         <div className="relative">
           <TrafiqoLogo tone="light" showTagline markClassName="h-10 w-10" wordmarkClassName="text-3xl" />
@@ -78,7 +78,7 @@ export function LoginScreen() {
           <p className="mt-2 text-sm text-ink-muted">{t('login.subtitle')}</p>
 
           {!usingSupabase && (
-            <div className="mt-5 rounded-xl bg-orange-50 px-3.5 py-2.5 text-xs font-medium text-orange-700 ring-1 ring-orange-100">
+            <div className="mt-5 rounded-xl bg-amber-50 px-3.5 py-2.5 text-xs font-medium text-amber-700 ring-1 ring-amber-100">
               {t('login.demoBadge')}
             </div>
           )}
