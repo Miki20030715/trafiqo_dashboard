@@ -1,0 +1,6 @@
+Brand colors:
+  - Magenta (primary): #D6206B
+  - Orange (accent): #F5821F
+  - Green (accent): #1FA86B
+  Tagline: Smarter choices. Smoother cities.
+  Tone: professional, concise, B2G, evidence-oriented, not overhyped.
