@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Maximize2, Minimize2, Layers, Activity, FlaskConical, PersonStanding } from 'lucide-react'
 import BudapestMap from './BudapestMap'
 import { hasTomTom } from '@/lib/tomtom'
+import { AGENT_TYPES } from '@/lib/simEngine'
 
 export function MapView() {
   const { t } = useTranslation()
@@ -119,16 +120,22 @@ export function MapView() {
             <p className="mb-1 text-[0.7rem] font-semibold uppercase tracking-wide text-ink-muted">
               {t('map.simulationAgents')}
             </p>
-            <div className="flex flex-col gap-1 text-xs text-ink-soft">
-              <span className="flex items-center gap-2">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-brand-500 text-[0.6rem] text-white">🚶</span>
-                {t('simulation.pedestrianLabel')}
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[0.6rem]">🐦</span>
-                {t('simulation.animalLabel')}
-              </span>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-ink-soft">
+              {AGENT_TYPES.map((a) => (
+                <span key={a.id} className="flex items-center gap-1.5">
+                  <span
+                    className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[0.55rem]"
+                    style={{ background: a.color }}
+                  >
+                    {a.emoji}
+                  </span>
+                  <span className="truncate">{t(`roles.${a.id}`)}</span>
+                </span>
+              ))}
             </div>
+            <p className="mt-1.5 max-w-[13rem] text-[0.6rem] leading-snug text-ink-muted">
+              {t('simulation.roadNote')}
+            </p>
           </div>
         )}
       </div>

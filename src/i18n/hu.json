@@ -298,8 +298,8 @@
   "simulation": {
     "agentsTitle": "Szimulációs ágensek",
     "toggle": "Ágensek mutatása",
-    "pedestrianLabel": "Gyalogos",
-    "animalLabel": "Állat",
-    "syntheticNote": "Szintetikus modell ágensek — nem valódi emberek vagy állatok"
+    "onRoad": "itt: {{road}}",
+    "roadNote": "Az ágensek az úthálózatot követik, és a folyón csak hidakon kelnek át.",
+    "syntheticNote": "Szintetikus modell ágens — nem valódi személy vagy jármű"
   }
 }

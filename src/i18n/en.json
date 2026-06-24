@@ -298,8 +298,8 @@
   "simulation": {
     "agentsTitle": "Simulation agents",
     "toggle": "Show agents",
-    "pedestrianLabel": "Pedestrian",
-    "animalLabel": "Animal",
-    "syntheticNote": "Synthetic model agents — not real people or animals"
+    "onRoad": "on {{road}}",
+    "roadNote": "Agents follow the road network and cross the river only on bridges.",
+    "syntheticNote": "Synthetic model agent — not a real person or vehicle"
   }
 }
