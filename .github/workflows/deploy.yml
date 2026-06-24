@@ -28,6 +28,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify TomTom key reaches the build
+        env:
+          VITE_TOMTOM_KEY: ${{ secrets.VITE_TOMTOM_KEY }}
+        run: |
+          if [ -z "$VITE_TOMTOM_KEY" ]; then
+            echo "::warning title=TomTom key missing::VITE_TOMTOM_KEY is EMPTY at build time — the deployed map will use the behavioural-model fallback and routes will show the demo path. Add it as a REPOSITORY secret (Settings → Secrets and variables → Actions → New repository secret), named exactly VITE_TOMTOM_KEY, then re-run this workflow."
+          else
+            echo "VITE_TOMTOM_KEY is present at build time (length ${#VITE_TOMTOM_KEY}) — live TomTom will be enabled."
+          fi
+
       - name: Build
         run: npm run build
         env:
