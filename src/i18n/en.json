@@ -121,7 +121,21 @@
     "minutes": "min",
     "km": "km",
     "selectOrigin": "Select starting point",
-    "selectDest": "Select destination"
+    "selectDest": "Select destination",
+    "transitTitle": "Transit options (simulated)",
+    "transitNote": "Illustrative public-transport plan — model-based, not real BKK timetables or live schedules.",
+    "transitNoTransfer": "Direct — no transfers",
+    "transitTransferCount": "{{count}} transfer",
+    "transitTransferCount_other": "{{count}} transfers",
+    "transitStops": "{{count}} stop",
+    "transitStops_other": "{{count}} stops",
+    "transitWalkToStop": "Walk to the stop",
+    "transitWalkToDest": "Walk to destination",
+    "transitTransferAt": "Transfer at {{hub}}",
+    "kindMetro": "Metro",
+    "kindTram": "Tram",
+    "kindBus": "Bus",
+    "kindTrolley": "Trolleybus"
   },
   "roles": {
     "title": "Who are you?",

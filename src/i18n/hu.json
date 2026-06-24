@@ -121,7 +121,21 @@
     "minutes": "perc",
     "km": "km",
     "selectOrigin": "Válasszon kiindulópontot",
-    "selectDest": "Válasszon célállomást"
+    "selectDest": "Válasszon célállomást",
+    "transitTitle": "Tömegközlekedési lehetőségek (szimulált)",
+    "transitNote": "Szemléltető tömegközlekedési terv — modell alapú, nem valós BKK-menetrend vagy élő adat.",
+    "transitNoTransfer": "Közvetlen — átszállás nélkül",
+    "transitTransferCount": "{{count}} átszállás",
+    "transitTransferCount_other": "{{count}} átszállás",
+    "transitStops": "{{count}} megálló",
+    "transitStops_other": "{{count}} megálló",
+    "transitWalkToStop": "Séta a megállóig",
+    "transitWalkToDest": "Séta a célállomásig",
+    "transitTransferAt": "Átszállás itt: {{hub}}",
+    "kindMetro": "Metró",
+    "kindTram": "Villamos",
+    "kindBus": "Busz",
+    "kindTrolley": "Trolibusz"
   },
   "roles": {
     "title": "Ki Ön?",

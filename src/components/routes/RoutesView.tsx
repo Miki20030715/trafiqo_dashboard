@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapContainer, TileLayer, Polyline, Marker, useMap } from 'react-leaflet'
 import L from 'leaflet'
@@ -13,6 +13,8 @@ import {
   formatDistance,
   estimateTimeSaved,
 } from '@/lib/routing'
+import { planTransit } from '@/lib/transit'
+import TransitOptions from './TransitOptions'
 import { useEffect } from 'react'
 import { useTheme } from '@/lib/theme'
 
@@ -69,6 +71,13 @@ export function RoutesView() {
   }
 
   const timeSavedMins = result ? estimateTimeSaved(result.durationSeconds, mode) : 0
+
+  // Simulated transit itinerary, shown only in Transit mode. Memoised so it stays
+  // stable while the same route is displayed.
+  const transitPlan = useMemo(() => {
+    if (!result || mode !== 'transit' || originIdx === null || destIdx === null) return null
+    return planTransit(BUDAPEST_LOCATIONS[originIdx], BUDAPEST_LOCATIONS[destIdx], result.durationSeconds)
+  }, [result, mode, originIdx, destIdx])
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row">
@@ -193,6 +202,9 @@ export function RoutesView() {
             )}
           </div>
         )}
+
+        {/* Simulated public-transport itinerary (Transit mode only) */}
+        {transitPlan && <TransitOptions plan={transitPlan} />}
       </div>
 
       {/* Right panel: map */}
