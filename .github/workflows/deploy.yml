@@ -28,12 +28,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Build with the Pages base path. No TomTom key is provided here on purpose:
-      # the app falls back to the behavioural model map layer, so no secret is exposed.
       - name: Build
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
+          VITE_TOMTOM_KEY: ${{ secrets.VITE_TOMTOM_KEY }}
 
       - name: Publish to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

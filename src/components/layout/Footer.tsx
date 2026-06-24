@@ -16,7 +16,7 @@ export function Footer({ onNavigate, onFeedback }: FooterProps) {
     <footer className="mt-auto bg-ink text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-3">
         <div className="md:col-span-2">
-          <TrafiqoLogo tone="light" showTagline markClassName="h-9 w-9" wordmarkClassName="text-2xl" />
+          <TrafiqoLogo tone="light" showTagline markClassName="h-9 w-9" wordmarkClassName="h-8" />
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/70">
             {t('footer.decisionSupportNote')}
           </p>

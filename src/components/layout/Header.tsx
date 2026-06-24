@@ -59,7 +59,7 @@ export function Header({ activeView, onNavigate, points = 0 }: HeaderProps) {
           className="shrink-0"
           aria-label="Trafiqo"
         >
-          <TrafiqoLogo markClassName="h-8 w-8" wordmarkClassName="text-xl" />
+          <TrafiqoLogo markClassName="h-8 w-8" wordmarkClassName="h-6" />
         </button>
 
         {/* Desktop nav */}
