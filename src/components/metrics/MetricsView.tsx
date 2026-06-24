@@ -133,7 +133,7 @@ export function MetricsView() {
             </div>
             <div className="flex flex-col rounded-2xl bg-white p-4 shadow-card">
               <Route className="mb-2 h-4 w-4 text-brand-500" />
-              <p className="text-xl font-bold text-ink">{d.trips} <span className="text-sm font-normal text-ink-muted">{t('metrics.km')}</span></p>
+              <p className="text-xl font-bold text-ink">{d.trips} <span className="text-sm font-normal text-ink-muted">{t('metrics.tripsUnit')}</span></p>
               <p className="text-xs text-ink-muted">{t('metrics.tripsCompleted')}</p>
             </div>
             <div className="flex flex-col rounded-2xl bg-white p-4 shadow-card">

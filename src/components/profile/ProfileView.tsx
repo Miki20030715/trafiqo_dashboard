@@ -22,7 +22,6 @@ export function ProfileView() {
 
   function handleSave() {
     void updateName(draftName)
-    updateProfile({})
     setEditing(false)
     setSaved(true)
     setTimeout(() => setSaved(false), 2500)

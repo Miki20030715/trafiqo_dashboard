@@ -75,7 +75,7 @@ export function RoutesView() {
 
         {/* Travel mode */}
         <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">{t('routes.modeCar')}</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">{t('routes.travelMode')}</p>
           <div className="flex flex-wrap gap-2">
             {MODE_CONFIG.map(({ mode: m, icon: Icon, labelKey }) => (
               <button

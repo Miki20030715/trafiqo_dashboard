@@ -81,10 +81,6 @@
     "simulationAgents": "Szimulációs ágensek",
     "showAgents": "Ágensek mutatása"
   },
-  "shell": {
-    "skeletonTitle": "Az alkalmazás váza készen áll",
-    "skeletonBody": "A következő lépésekben ide kerül a budapesti térkép, az útvonaltervező, a szerepkörök, a mérőszámok és a többi modul."
-  },
   "feedback": {
     "button": "Visszajelzés küldése",
     "title": "Kérés / Javaslat",
@@ -97,6 +93,7 @@
   },
   "routes": {
     "title": "Útvonaltervezés",
+    "travelMode": "Közlekedési mód",
     "modeCar": "Autó",
     "modeTaxi": "Taxi",
     "modeTransit": "Tömegközlekedés",
@@ -136,7 +133,6 @@
     "kpiMoneySaved": "Megtakarított pénz",
     "kpiGreenScore": "Zöld pontszám",
     "kpiTrips": "Teljesített utak",
-    "kpiCO2": "Elkerült CO₂",
     "kpiOnTime": "Pontos érkezések",
     "kpiResponse": "Átl. reagálási idő",
     "kpiDeliveries": "Időben leszállítva",
@@ -162,6 +158,7 @@
     "co2": "Elkerült CO₂",
     "fuelSaved": "Megtakarított üzemanyag",
     "tripsCompleted": "Teljesített utak",
+    "tripsUnit": "út",
     "avgSpeed": "Átl. sebesség",
     "congestionAvoided": "Elkerült torlódások",
     "minutes": "perc",

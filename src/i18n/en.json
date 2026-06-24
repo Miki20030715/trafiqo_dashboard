@@ -81,10 +81,6 @@
     "simulationAgents": "Simulation agents",
     "showAgents": "Show agents"
   },
-  "shell": {
-    "skeletonTitle": "App shell is ready",
-    "skeletonBody": "Upcoming steps drop the Budapest map, route planner, roles, metrics and the other modules into this area."
-  },
   "feedback": {
     "button": "Send feedback",
     "title": "Request / Suggestion",
@@ -97,6 +93,7 @@
   },
   "routes": {
     "title": "Route planning",
+    "travelMode": "Travel mode",
     "modeCar": "Car",
     "modeTaxi": "Taxi",
     "modeTransit": "Transit",
@@ -136,7 +133,6 @@
     "kpiMoneySaved": "Money saved",
     "kpiGreenScore": "Green score",
     "kpiTrips": "Trips completed",
-    "kpiCO2": "CO₂ avoided",
     "kpiOnTime": "On-time arrivals",
     "kpiResponse": "Avg. response time",
     "kpiDeliveries": "Deliveries on time",
@@ -162,6 +158,7 @@
     "co2": "CO₂ avoided",
     "fuelSaved": "Fuel saved",
     "tripsCompleted": "Trips completed",
+    "tripsUnit": "trips",
     "avgSpeed": "Avg. speed",
     "congestionAvoided": "Congestion events avoided",
     "minutes": "min",
