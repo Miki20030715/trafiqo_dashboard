@@ -2,7 +2,7 @@ name: Deploy preview to GitHub Pages
 
 on:
   push:
-    branches: ['claude/kind-knuth-bj5ofm']
+    branches: ['claude/dreamy-heisenberg-oy4vbh']
   workflow_dispatch:
 
 permissions:
