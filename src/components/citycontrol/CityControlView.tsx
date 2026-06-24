@@ -5,6 +5,7 @@ import {
   BarChart, Bar, Cell
 } from 'recharts'
 import { Users, TrendingUp, Leaf, Activity, Settings, CheckCircle } from 'lucide-react'
+import { useTheme } from '@/lib/theme'
 
 const FORECAST_DATA = [
   { time: 'now', free: 45, moderate: 35, heavy: 20 },
@@ -45,6 +46,12 @@ function StatCard({ icon: Icon, iconColor, iconBg, label, value, sub }: {
 
 export function CityControlView() {
   const { t } = useTranslation()
+  const { isDark } = useTheme()
+  const gridStroke = isDark ? '#2a3346' : '#f1f5f9'
+  const axisColor = isDark ? '#8a92a6' : '#6b6f86'
+  const tooltipStyle = isDark
+    ? { backgroundColor: '#161c2d', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#e6eaf2' }
+    : undefined
   const [multipliers, setMultipliers] = useState<Record<string, number>>(
     Object.fromEntries(ZONES.map((z) => [z.id, z.defaultMultiplier]))
   )
@@ -82,10 +89,10 @@ export function CityControlView() {
         <h2 className="mb-4 text-sm font-semibold text-ink">{t('cityControl.forecast')}</h2>
         <ResponsiveContainer width="100%" height={220}>
           <AreaChart data={FORECAST_DATA} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="time" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-            <Tooltip formatter={(v: number) => `${v}%`} />
+            <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+            <XAxis dataKey="time" tick={{ fontSize: 11, fill: axisColor }} stroke={gridStroke} />
+            <YAxis tick={{ fontSize: 11, fill: axisColor }} stroke={gridStroke} tickFormatter={(v) => `${v}%`} />
+            <Tooltip formatter={(v: number) => `${v}%`} contentStyle={tooltipStyle} />
             <Area type="monotone" dataKey="free" stackId="1" stroke="#2DA84A" fill="#dcfce7" name={t('cityControl.free')} />
             <Area type="monotone" dataKey="moderate" stackId="1" stroke="#F8B500" fill="#fef9c3" name={t('cityControl.moderate')} />
             <Area type="monotone" dataKey="heavy" stackId="1" stroke="#EA4335" fill="#fee2e2" name={t('cityControl.heavy')} />
@@ -143,10 +150,10 @@ export function CityControlView() {
           <h2 className="mb-4 text-sm font-semibold text-ink">{t('cityControl.sustainability')}</h2>
           <ResponsiveContainer width="100%" height={160}>
             <BarChart data={SUSTAINABILITY_DATA} layout="vertical" margin={{ left: -10, right: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-              <XAxis type="number" tick={{ fontSize: 10 }} />
-              <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={60} />
-              <Tooltip formatter={(v: number) => [`${v} users`]} />
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={gridStroke} />
+              <XAxis type="number" tick={{ fontSize: 10, fill: axisColor }} stroke={gridStroke} />
+              <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: axisColor }} stroke={gridStroke} width={60} />
+              <Tooltip formatter={(v: number) => [`${v} users`]} contentStyle={tooltipStyle} />
               <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                 {SUSTAINABILITY_DATA.map((d, i) => (
                   <Cell key={i} fill={d.color} />

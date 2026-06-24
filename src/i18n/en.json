@@ -18,6 +18,12 @@
     "language": "Language",
     "comingSoon": "Coming soon"
   },
+  "theme": {
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "login": {
     "welcome": "Welcome to Trafiqo",
     "subtitle": "Decision-support platform for urban mobility — with human oversight.",

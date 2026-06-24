@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Menu, X, Trophy, Building2, User, LogOut, ChevronDown } from 'lucide-react'
 import TrafiqoLogo from '@/components/brand/TrafiqoLogo'
 import LanguageToggle from '@/components/common/LanguageToggle'
+import ThemeToggle from '@/components/common/ThemeToggle'
 import { useAuth } from '@/auth/AuthContext'
 import { PRIMARY_NAV, type AppView } from './views'
 
@@ -91,6 +92,8 @@ export function Header({ activeView, onNavigate, points = 0 }: HeaderProps) {
             {points}
           </div>
 
+          <ThemeToggle className="hidden sm:inline-flex" />
+
           <LanguageToggle className="hidden sm:inline-flex" />
 
           {/* User menu */}
@@ -125,8 +128,9 @@ export function Header({ activeView, onNavigate, points = 0 }: HeaderProps) {
                   <User className="h-4 w-4" />
                   {t('header.profile')}
                 </button>
-                <div className="px-4 py-2 sm:hidden">
-                  <LanguageToggle className="w-full justify-center" />
+                <div className="flex items-center justify-between px-4 py-2 sm:hidden">
+                  <LanguageToggle />
+                  <ThemeToggle />
                 </div>
                 <button
                   type="button"

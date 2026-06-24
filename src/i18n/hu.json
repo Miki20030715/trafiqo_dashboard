@@ -18,6 +18,12 @@
     "language": "Nyelv",
     "comingSoon": "Hamarosan"
   },
+  "theme": {
+    "switchToDark": "Váltás sötét módra",
+    "switchToLight": "Váltás világos módra",
+    "light": "Világos",
+    "dark": "Sötét"
+  },
   "login": {
     "welcome": "Üdvözli a Trafiqo",
     "subtitle": "Döntéstámogató városi mobilitási platform — emberi felügyelet mellett.",

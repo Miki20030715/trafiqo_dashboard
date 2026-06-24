@@ -14,6 +14,7 @@ import {
   estimateTimeSaved,
 } from '@/lib/routing'
 import { useEffect } from 'react'
+import { useTheme } from '@/lib/theme'
 
 const MODE_CONFIG: { mode: TravelMode; icon: typeof Car; labelKey: string }[] = [
   { mode: 'car', icon: Car, labelKey: 'routes.modeCar' },
@@ -50,6 +51,8 @@ function RouteMapInner({ result, origin, dest }: { result: RouteResult; origin: 
 
 export function RoutesView() {
   const { t, i18n } = useTranslation()
+  const { isDark } = useTheme()
+  const basemap = isDark ? 'dark_all' : 'light_all'
   const lang = i18n.language
   const [mode, setMode] = useState<TravelMode>('car')
   const [originIdx, setOriginIdx] = useState<number | null>(null)
@@ -199,7 +202,8 @@ export function RoutesView() {
           style={{ minHeight: 400 }}
         >
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            key={basemap}
+            url={`https://{s}.basemaps.cartocdn.com/${basemap}/{z}/{x}/{y}{r}.png`}
             subdomains="abcd"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />

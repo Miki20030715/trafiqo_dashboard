@@ -6,13 +6,16 @@ import './index.css'
 import App from './App'
 import { AuthProvider } from '@/auth/AuthContext'
 import { GamificationProvider } from '@/lib/gamification'
+import { ThemeProvider } from '@/lib/theme'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AuthProvider>
-      <GamificationProvider>
-        <App />
-      </GamificationProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <GamificationProvider>
+          <App />
+        </GamificationProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

@@ -9,6 +9,7 @@ import {
   CONGESTION_COLORS,
 } from './mapConfig'
 import { hasTomTom, tomtomTrafficFlowUrl } from '@/lib/tomtom'
+import { useTheme } from '@/lib/theme'
 import SimulationLayer from './SimulationLayer'
 
 /** Recomputes map size when its container changes (e.g. fullscreen toggle). */
@@ -32,6 +33,8 @@ interface BudapestMapProps {
 
 export function BudapestMap({ showTraffic, resizeTrigger, showAgents = false }: BudapestMapProps) {
   const live = hasTomTom()
+  const { isDark } = useTheme()
+  const basemap = isDark ? 'dark_all' : 'light_all'
 
   return (
     <MapContainer
@@ -45,9 +48,10 @@ export function BudapestMap({ showTraffic, resizeTrigger, showAgents = false }: 
     >
       <MapResizer trigger={resizeTrigger} />
 
-      {/* Clean light basemap (no key required) */}
+      {/* Clean basemap (no key required) — light or dark to match the theme */}
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        key={basemap}
+        url={`https://{s}.basemaps.cartocdn.com/${basemap}/{z}/{x}/{y}{r}.png`}
         subdomains="abcd"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
         maxZoom={MAX_ZOOM}

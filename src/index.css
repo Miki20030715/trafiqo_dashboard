@@ -5,6 +5,29 @@
 @layer base {
   :root {
     color-scheme: light;
+    /* Dark-mode surface palette (consumed by the overrides at the bottom of this file). */
+    --tq-bg: #f8fafc;
+    --tq-surface: #ffffff;
+    --tq-surface-2: #f1f5f9;
+    --tq-surface-3: #e2e8f0;
+    --tq-text: #1a1b25;
+    --tq-text-soft: #3c3f52;
+    --tq-text-muted: #6b6f86;
+    --tq-border: #e2e8f0;
+    --tq-border-soft: #f1f5f9;
+  }
+
+  html.dark {
+    color-scheme: dark;
+    --tq-bg: #0b1120;
+    --tq-surface: #161c2d;
+    --tq-surface-2: #1e2536;
+    --tq-surface-3: #2a3346;
+    --tq-text: #e6eaf2;
+    --tq-text-soft: #c3c9d8;
+    --tq-text-muted: #8a92a6;
+    --tq-border: rgba(255, 255, 255, 0.1);
+    --tq-border-soft: rgba(255, 255, 255, 0.06);
   }
 
   html,
@@ -52,4 +75,164 @@
   .tq-label {
     @apply mb-1.5 block text-sm font-medium text-ink-soft;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Dark mode. The app uses raw Tailwind surface utilities (bg-white, bg-slate-*,
+   text-ink*, …) across many components, so rather than annotate every element we
+   remap those utilities under `.dark`. The `.dark` descendant selector outranks
+   the single-class utilities, so no !important is needed.
+   ───────────────────────────────────────────────────────────────────────────── */
+.dark body {
+  background-color: var(--tq-bg);
+  color: var(--tq-text);
+}
+
+/* Surfaces */
+.dark .bg-white,
+.dark .bg-white\/95,
+.dark .bg-white\/90,
+.dark .bg-white\/70 {
+  background-color: var(--tq-surface);
+}
+.dark .bg-slate-50,
+.dark .bg-slate-50\/50 {
+  background-color: var(--tq-bg);
+}
+.dark .bg-slate-100 {
+  background-color: var(--tq-surface-2);
+}
+.dark .bg-slate-200 {
+  background-color: var(--tq-surface-3);
+}
+.dark .hover\:bg-slate-50:hover {
+  background-color: var(--tq-surface-2);
+}
+.dark .hover\:bg-slate-100:hover,
+.dark .hover\:bg-slate-200:hover {
+  background-color: var(--tq-surface-3);
+}
+
+/* Text */
+.dark .text-ink {
+  color: var(--tq-text);
+}
+.dark .text-ink-soft {
+  color: var(--tq-text-soft);
+}
+.dark .text-ink-muted {
+  color: var(--tq-text-muted);
+}
+.dark .text-slate-400 {
+  color: #94a3b8;
+}
+.dark .text-slate-500 {
+  color: #aab2c2;
+}
+.dark .text-slate-600 {
+  color: #c3c9d8;
+}
+
+/* Borders, rings, dividers */
+.dark .border-slate-50,
+.dark .border-slate-100 {
+  border-color: var(--tq-border-soft);
+}
+.dark .border-slate-200 {
+  border-color: var(--tq-border);
+}
+.dark .ring-slate-200 {
+  --tw-ring-color: var(--tq-border);
+}
+
+/* Accent tint backgrounds → subtle translucent fills so they don't glare on dark */
+.dark .bg-brand-50 {
+  background-color: rgba(27, 114, 232, 0.14);
+}
+.dark .bg-green-50 {
+  background-color: rgba(45, 168, 74, 0.14);
+}
+.dark .bg-amber-50 {
+  background-color: rgba(248, 181, 0, 0.14);
+}
+.dark .bg-red-50,
+.dark .bg-red-100 {
+  background-color: rgba(234, 67, 53, 0.16);
+}
+.dark .bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.14);
+}
+.dark .bg-orange-50 {
+  background-color: rgba(234, 123, 11, 0.14);
+}
+
+/* Accent text → lighter shades stay legible on the translucent fills */
+.dark .text-brand-600,
+.dark .text-brand-700 {
+  color: #7daef3;
+}
+.dark .text-green-600,
+.dark .text-green-700,
+.dark .text-green-800 {
+  color: #74ce89;
+}
+.dark .text-amber-600,
+.dark .text-amber-700,
+.dark .text-amber-800 {
+  color: #fcd566;
+}
+.dark .text-red-600,
+.dark .text-red-700 {
+  color: #f39189;
+}
+.dark .text-blue-700 {
+  color: #93c5fd;
+}
+.dark .text-orange-600 {
+  color: #fdba74;
+}
+
+/* Accent rings */
+.dark .ring-brand-100,
+.dark .ring-brand-200 {
+  --tw-ring-color: rgba(27, 114, 232, 0.35);
+}
+.dark .ring-amber-100,
+.dark .ring-amber-200 {
+  --tw-ring-color: rgba(248, 181, 0, 0.35);
+}
+.dark .ring-green-100 {
+  --tw-ring-color: rgba(45, 168, 74, 0.35);
+}
+
+/* Elevation reads as darker shadow on dark surfaces */
+.dark .shadow-card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+.dark .shadow-card-hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 8px 28px rgba(0, 0, 0, 0.6);
+}
+
+/* Form controls + focus ring offset */
+.dark select,
+.dark input,
+.dark textarea {
+  color-scheme: dark;
+}
+.dark *:focus-visible {
+  --tw-ring-offset-color: var(--tq-bg);
+}
+
+/* Leaflet attribution chip is light by default — tone it down for dark maps */
+.dark .leaflet-control-attribution {
+  background: rgba(22, 28, 45, 0.8) !important;
+  color: var(--tq-text-muted) !important;
+}
+.dark .leaflet-control-attribution a {
+  color: var(--tq-text-soft) !important;
+}
+.dark .leaflet-bar a {
+  background-color: var(--tq-surface);
+  color: var(--tq-text);
+  border-color: var(--tq-border);
 }
