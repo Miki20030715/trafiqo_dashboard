@@ -13,7 +13,7 @@ const ROLE_OPTIONS: UserRole[] = [
 
 export function ProfileView() {
   const { t } = useTranslation()
-  const { user, signOut } = useAuth()
+  const { user, signOut, updateName } = useAuth()
   const { profile, updateProfile } = useUserProfile()
   const { points, level } = useGamification()
   const [editing, setEditing] = useState(false)
@@ -21,6 +21,7 @@ export function ProfileView() {
   const [saved, setSaved] = useState(false)
 
   function handleSave() {
+    void updateName(draftName)
     updateProfile({})
     setEditing(false)
     setSaved(true)

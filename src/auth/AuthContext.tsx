@@ -26,6 +26,7 @@ interface AuthContextValue {
   signUp: (name: string, email: string, password: string) => Promise<void>
   signInAsGuest: () => void
   signOut: () => Promise<void>
+  updateName: (name: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -161,8 +162,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }
 
+  const updateName = async (name: string) => {
+    if (usingSupabase && supabase && user && !user.isGuest) {
+      const { error } = await supabase.auth.updateUser({ data: { name } })
+      if (error) throw error
+    }
+    setUser((prev) => {
+      if (!prev) return prev
+      const updated = { ...prev, name }
+      writeMockUser(updated)
+      return updated
+    })
+  }
+
   const value = useMemo<AuthContextValue>(
-    () => ({ user, loading, usingSupabase, signIn, signUp, signInAsGuest, signOut }),
+    () => ({ user, loading, usingSupabase, signIn, signUp, signInAsGuest, signOut, updateName }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [user, loading, usingSupabase],
   )
