@@ -30,10 +30,13 @@ jobs:
 
       - name: Verify TomTom key reaches the build
         env:
-          VITE_TOMTOM_KEY: ${{ secrets.VITE_TOMTOM_KEY }}
+          # Accept the value whether it was stored as a repository/environment
+          # SECRET or as a repository VARIABLE (both tabs live under
+          # Settings → Secrets and variables → Actions).
+          VITE_TOMTOM_KEY: ${{ secrets.VITE_TOMTOM_KEY || vars.VITE_TOMTOM_KEY }}
         run: |
           if [ -z "$VITE_TOMTOM_KEY" ]; then
-            echo "::warning title=TomTom key missing::VITE_TOMTOM_KEY is EMPTY at build time — the deployed map will use the behavioural-model fallback and routes will show the demo path. Add it as a REPOSITORY secret (Settings → Secrets and variables → Actions → New repository secret), named exactly VITE_TOMTOM_KEY, then re-run this workflow."
+            echo "::warning title=TomTom key missing::VITE_TOMTOM_KEY is EMPTY at build time — the deployed map will use the behavioural-model fallback and routes will show the demo path. Add it under Settings → Secrets and variables → Actions, named EXACTLY VITE_TOMTOM_KEY, as a Repository secret (or a Repository variable), then re-run this workflow."
           else
             echo "VITE_TOMTOM_KEY is present at build time (length ${#VITE_TOMTOM_KEY}) — live TomTom will be enabled."
           fi
@@ -42,7 +45,7 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
-          VITE_TOMTOM_KEY: ${{ secrets.VITE_TOMTOM_KEY }}
+          VITE_TOMTOM_KEY: ${{ secrets.VITE_TOMTOM_KEY || vars.VITE_TOMTOM_KEY }}
 
       - name: Publish to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
