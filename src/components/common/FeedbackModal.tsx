@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { X, MessageSquarePlus, CheckCircle } from 'lucide-react'
 
@@ -28,8 +29,6 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
   const [error, setError] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
-  if (!open) return null
-
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!name.trim() || !message.trim()) {
@@ -49,12 +48,34 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
     onClose()
   }
 
-  return (
+  // Lock background scroll and close on Escape while the modal is open.
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose()
+    }
+    window.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflow
+    }
+    // handleClose only resets local state + calls onClose; stable enough for this effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
+
+  if (!open) return null
+
+  return createPortal(
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-label={t('feedback.title')}
+      className="fixed inset-0 z-[2000] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/50 p-4 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) handleClose() }}
     >
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-xl">
+      <div className="my-auto max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-white shadow-xl ring-1 ring-black/5">
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <div className="flex items-center gap-2 text-brand-700">
             <MessageSquarePlus className="h-5 w-5" />
@@ -121,7 +142,8 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
