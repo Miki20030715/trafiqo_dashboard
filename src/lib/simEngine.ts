@@ -16,6 +16,7 @@ import {
   edgeBetween,
   shortestPath,
   randomNodeId,
+  ROADS,
 } from '@/components/map/roadNetwork'
 
 export type AgentTypeId =
@@ -54,6 +55,41 @@ export const AGENT_TYPES: AgentType[] = [
 const TYPE_MAP: Record<AgentTypeId, AgentType> = Object.fromEntries(
   AGENT_TYPES.map((t) => [t.id, t]),
 ) as Record<AgentTypeId, AgentType>
+
+/**
+ * Baseline "busyness" per road (0 = empty, 1 = saturated). A model assumption that
+ * Budapest's main arteries (Grand Boulevard, Rákóczi) carry heavier typical load than
+ * quiet quays — it combines with live agent density to shape each road's flow.
+ */
+const ROAD_LOAD: Record<string, number> = {
+  'Grand Boulevard': 0.6,
+  'Rákóczi Avenue': 0.55,
+  'Üllői Road': 0.45,
+  'Little Boulevard': 0.4,
+  'Váci Road': 0.4,
+  'Margaret Bridge': 0.4,
+  'Elizabeth Bridge': 0.4,
+  'Bajcsy-Zsilinszky Road': 0.35,
+  'Chain Bridge': 0.35,
+  'Petőfi Bridge': 0.35,
+  'Margit Boulevard': 0.35,
+  'Dózsa György Road': 0.3,
+  'Inner city': 0.3,
+  'József Attila Street': 0.3,
+  'Liberty Bridge': 0.3,
+  'Árpád Bridge': 0.3,
+  'Bartók Béla Road': 0.3,
+  'Hegyalja Road': 0.3,
+  'Krisztina Boulevard': 0.3,
+  'Pest Quay': 0.25,
+  'Andrássy Avenue': 0.2,
+  'Buda Lower Quay': 0.2,
+  'Buda Upper Quay': 0.2,
+  'Gellért Quay': 0.2,
+  'Castle District': 0.15,
+  'Irinyi Street': 0.15,
+}
+const DEFAULT_LOAD = 0.25
 
 export interface Agent {
   id: string
@@ -185,8 +221,12 @@ function assignRoute(agent: Agent, route: string[]) {
 export function stepAgents(agents: Agent[], dt: number): Agent[] {
   for (const agent of agents) {
     const type = TYPE_MAP[agent.type]
-    const factor = densityFactor(agent, agents)
-    const effectiveKmh = type.baseKmh * factor
+    const density = densityFactor(agent, agents)
+    // Baseline road load slows traffic too, scaled by how sensitive the type is
+    // (emergency/police push through; pedestrians barely notice vehicle load).
+    const load = ROAD_LOAD[agent.road] ?? DEFAULT_LOAD
+    const roadFactor = Math.max(0.3, 1 - load * type.congestionSensitivity)
+    const effectiveKmh = type.baseKmh * density * roadFactor
     agent.speedKmh = effectiveKmh
 
     let move = (effectiveKmh / 3.6) * dt // metres this tick
@@ -257,4 +297,120 @@ export function stepAgents(agents: Agent[], dt: number): Agent[] {
 
 export function agentTypeLabelKey(type: AgentTypeId): string {
   return `roles.${type}`
+}
+
+// ───────────────────────────── Road statistics (Step 3) ─────────────────────────────
+// All figures below are derived from the simulation's own agents — model output,
+// NOT measured city data and not a real-world prediction.
+
+export type CongestionLevel = 'free' | 'moderate' | 'heavy'
+
+interface RoadAccum {
+  road: string
+  roadHu: string
+  bridge: boolean
+  /** Exponential moving average of "flow" = effective speed ÷ that agent's free-flow speed (0..1). */
+  emaFlow: number
+  /** Exponential moving average of effective speed (km/h). */
+  emaSpeed: number
+  /** Cumulative agent-tick samples (confidence). */
+  samples: number
+  /** Whether any agent has ever travelled this road. */
+  seen: boolean
+}
+
+export interface RoadStats {
+  byRoad: Map<string, RoadAccum>
+  startedAt: number
+}
+
+export interface RankedRoad {
+  road: string
+  roadHu: string
+  bridge: boolean
+  /** Traffic flow as a percentage of free-flow speed (0..100). Higher = better. */
+  flowPct: number
+  avgSpeed: number
+  level: CongestionLevel
+  samples: number
+}
+
+export function createRoadStats(): RoadStats {
+  const byRoad = new Map<string, RoadAccum>()
+  for (const r of ROADS) {
+    byRoad.set(r.road, {
+      road: r.road,
+      roadHu: r.roadHu,
+      bridge: r.bridge,
+      emaFlow: 1,
+      emaSpeed: 0,
+      samples: 0,
+      seen: false,
+    })
+  }
+  return { byRoad, startedAt: Date.now() }
+}
+
+function levelFromFlow(flowPct: number): CongestionLevel {
+  if (flowPct >= 78) return 'free'
+  if (flowPct >= 55) return 'moderate'
+  return 'heavy'
+}
+
+/**
+ * Fold one simulation tick into the running road statistics. For every road that has
+ * agents on it this tick, we update its moving averages of flow and speed.
+ */
+export function sampleRoadStats(agents: Agent[], stats: RoadStats, alpha = 0.12): void {
+  // Aggregate the agents currently on each road.
+  const perRoad = new Map<string, { flow: number; speed: number; n: number }>()
+  for (const a of agents) {
+    const base = TYPE_MAP[a.type].baseKmh
+    const flow = base > 0 ? a.speedKmh / base : 1
+    const cur = perRoad.get(a.road) ?? { flow: 0, speed: 0, n: 0 }
+    cur.flow += flow
+    cur.speed += a.speedKmh
+    cur.n += 1
+    perRoad.set(a.road, cur)
+  }
+
+  for (const [road, agg] of perRoad) {
+    const acc = stats.byRoad.get(road)
+    if (!acc) continue
+    const meanFlow = agg.flow / agg.n
+    const meanSpeed = agg.speed / agg.n
+    if (!acc.seen) {
+      acc.emaFlow = meanFlow
+      acc.emaSpeed = meanSpeed
+      acc.seen = true
+    } else {
+      acc.emaFlow = acc.emaFlow * (1 - alpha) + meanFlow * alpha
+      acc.emaSpeed = acc.emaSpeed * (1 - alpha) + meanSpeed * alpha
+    }
+    acc.samples += agg.n
+  }
+}
+
+/** Roads that have data, ranked best (free-flowing) → worst (congested). */
+export function rankRoads(stats: RoadStats): { ranked: RankedRoad[]; collecting: number } {
+  const ranked: RankedRoad[] = []
+  let collecting = 0
+  for (const acc of stats.byRoad.values()) {
+    if (!acc.seen) {
+      collecting++
+      continue
+    }
+    const flowPct = Math.max(0, Math.min(100, Math.round(acc.emaFlow * 100)))
+    ranked.push({
+      road: acc.road,
+      roadHu: acc.roadHu,
+      bridge: acc.bridge,
+      flowPct,
+      avgSpeed: Math.round(acc.emaSpeed),
+      level: levelFromFlow(flowPct),
+      samples: acc.samples,
+    })
+  }
+  ranked.sort((a, b) => b.flowPct - a.flowPct || b.avgSpeed - a.avgSpeed)
+  return { ranked, collecting }
 }
