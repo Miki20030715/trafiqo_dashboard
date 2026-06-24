@@ -1,4 +1,10 @@
 import { env, hasTomTom } from './env'
+import {
+  getNode,
+  haversineMeters,
+  nearestNodeId,
+  shortestPath,
+} from '@/components/map/roadNetwork'
 
 export type TravelMode = 'car' | 'taxi' | 'transit' | 'bike' | 'walk'
 
@@ -17,11 +23,15 @@ export interface RoutePoint {
   nameHu: string
 }
 
+/** Where the route geometry came from. */
+export type RouteSource = 'tomtom' | 'model'
+
 export interface RouteResult {
   durationSeconds: number
   distanceMeters: number
   points: [number, number][]
-  isDemo: boolean
+  /** 'tomtom' = live road routing with traffic; 'model' = estimated along the road graph. */
+  source: RouteSource
 }
 
 export const BUDAPEST_LOCATIONS: RoutePoint[] = [
@@ -42,55 +52,76 @@ export async function calculateRoute(
   destination: RoutePoint,
   mode: TravelMode,
 ): Promise<RouteResult> {
+  // Live TomTom road routing (with traffic) is preferred whenever a key is present.
   if (hasTomTom()) {
     const ttMode = TT_MODE_MAP[mode]
-    const url = `https://api.tomtom.com/routing/1/calculateRoute/${origin.lat},${origin.lon}:${destination.lat},${destination.lon}/json?key=${env.tomtomKey}&travelMode=${ttMode}&traffic=true`
+    const url =
+      `https://api.tomtom.com/routing/1/calculateRoute/` +
+      `${origin.lat},${origin.lon}:${destination.lat},${destination.lon}/json` +
+      `?key=${env.tomtomKey}&travelMode=${ttMode}&traffic=true&routeType=fastest`
     try {
       const res = await fetch(url)
       if (res.ok) {
         const data = await res.json()
         const route = data.routes?.[0]
-        if (route) {
-          const summary = route.summary
-          const points: [number, number][] = route.legs.flatMap((leg: { points: { latitude: number; longitude: number }[] }) =>
+        const points: [number, number][] =
+          route?.legs?.flatMap((leg: { points: { latitude: number; longitude: number }[] }) =>
             leg.points.map((p) => [p.latitude, p.longitude] as [number, number]),
-          )
+          ) ?? []
+        if (route?.summary && points.length > 1) {
           return {
-            durationSeconds: summary.travelTimeInSeconds as number,
-            distanceMeters: summary.lengthInMeters as number,
+            durationSeconds: route.summary.travelTimeInSeconds as number,
+            distanceMeters: route.summary.lengthInMeters as number,
             points,
-            isDemo: false,
+            source: 'tomtom',
           }
         }
+        console.warn('[routing] TomTom response had no usable route; using model fallback.')
+      } else {
+        console.warn(`[routing] TomTom routing returned ${res.status}; using model fallback.`)
       }
-    } catch {
-      // fall through to demo
+    } catch (err) {
+      console.warn('[routing] TomTom routing request failed; using model fallback.', err)
     }
   }
-  return buildDemoRoute(origin, destination, mode)
+  return buildModelRoute(origin, destination, mode)
 }
 
-function buildDemoRoute(origin: RoutePoint, destination: RoutePoint, mode: TravelMode): RouteResult {
-  const steps = 20
-  const midLat = (origin.lat + destination.lat) / 2 + (Math.random() - 0.5) * 0.01
-  const midLon = (origin.lon + destination.lon) / 2 + (Math.random() - 0.5) * 0.01
+/** Free-flow speeds (km/h) used to estimate duration for the model route. */
+const MODEL_SPEED_KMH: Record<TravelMode, number> = {
+  car: 32,
+  taxi: 32,
+  transit: 22,
+  bike: 16,
+  walk: 5,
+}
 
-  const points: [number, number][] = []
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps
-    const lat = (1 - t) * (1 - t) * origin.lat + 2 * (1 - t) * t * midLat + t * t * destination.lat
-    const lon = (1 - t) * (1 - t) * origin.lon + 2 * (1 - t) * t * midLon + t * t * destination.lon
-    points.push([lat, lon])
+/**
+ * Fallback route that follows the Budapest road graph instead of a straight line:
+ * snap origin/destination to the nearest intersections, route over the network
+ * (crossing the river only on bridges), and stitch short connectors at each end.
+ * Distance is measured along the polyline; duration uses a mode-specific speed.
+ */
+function buildModelRoute(origin: RoutePoint, destination: RoutePoint, mode: TravelMode): RouteResult {
+  const startNode = nearestNodeId(origin.lat, origin.lon)
+  const endNode = nearestNodeId(destination.lat, destination.lon)
+  const nodePath = shortestPath(startNode, endNode) ?? [startNode, endNode]
+
+  const points: [number, number][] = [[origin.lat, origin.lon]]
+  for (const id of nodePath) {
+    const n = getNode(id)
+    points.push([n.lat, n.lon])
   }
+  points.push([destination.lat, destination.lon])
 
-  const dLat = destination.lat - origin.lat
-  const dLon = destination.lon - origin.lon
-  const distanceMeters = Math.round(Math.sqrt(dLat * dLat + dLon * dLon) * 111000 * 1.3)
+  let distanceMeters = 0
+  for (let i = 1; i < points.length; i++) {
+    distanceMeters += haversineMeters(points[i - 1][0], points[i - 1][1], points[i][0], points[i][1])
+  }
+  distanceMeters = Math.round(distanceMeters)
 
-  const speedKmh: Record<TravelMode, number> = { car: 35, taxi: 35, transit: 25, bike: 18, walk: 5 }
-  const durationSeconds = Math.round((distanceMeters / 1000 / speedKmh[mode]) * 3600)
-
-  return { durationSeconds, distanceMeters, points, isDemo: true }
+  const durationSeconds = Math.round((distanceMeters / 1000 / MODEL_SPEED_KMH[mode]) * 3600)
+  return { durationSeconds, distanceMeters, points, source: 'model' }
 }
 
 export function formatDuration(seconds: number, lang: string): string {

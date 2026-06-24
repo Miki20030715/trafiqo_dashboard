@@ -219,3 +219,17 @@ export function randomNodeId(exclude?: string): string {
   }
   return id
 }
+
+/** The graph node closest (great-circle) to an arbitrary lat/lon. */
+export function nearestNodeId(lat: number, lon: number): string {
+  let best = NODES[0].id
+  let bestD = Infinity
+  for (const n of NODES) {
+    const d = haversineMeters(lat, lon, n.lat, n.lon)
+    if (d < bestD) {
+      bestD = d
+      best = n.id
+    }
+  }
+  return best
+}
