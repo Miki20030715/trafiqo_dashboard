@@ -138,7 +138,17 @@
     "kindMetro": "Metró",
     "kindTram": "Villamos",
     "kindBus": "Busz",
-    "kindTrolley": "Trolibusz"
+    "kindTrolley": "Trolibusz",
+    "optionsTitle": "Útvonal-lehetőségek összevetése",
+    "optionsLive": "Élő összevetés · TomTom Matrix Routing",
+    "optionsModel": "Modell-összevetés — a valós úthálózat mentén becsülve (nem élő)",
+    "optionDirect": "Közvetlen útvonal",
+    "optionVia": "Érintve: {{via}}",
+    "optionBest": "Legjobb",
+    "optionFastest": "Leggyorsabb",
+    "optionShortest": "Legrövidebb",
+    "optionLeastCongested": "Legkevésbé zsúfolt",
+    "optionDelay": "forgalmi késés"
   },
   "roles": {
     "title": "Ki Ön?",
@@ -339,7 +349,13 @@
     "kmh": "km/h",
     "howToRead": "Magasabb áramlás % = a forgalom közelebb halad a szabad sebességhez. Legjobb (felül) a legrosszabbig rangsorolva.",
     "runningFor": "Fut {{sec}} mp-e",
-    "collecting": "még {{count}} útról gyűjt adatot"
+    "collecting": "még {{count}} útról gyűjt adatot",
+    "liveTitle": "Élő útsebességek",
+    "liveBadge": "Élő",
+    "liveSubtitle": "Fő közlekedési folyosók a jelenlegi haladási sebesség szerint rangsorolva, egyetlen TomTom Matrix Routing hívásban összevetve.",
+    "modelSectionTitle": "Modellszimulációs rangsor",
+    "refresh": "Frissítés",
+    "lastUpdated": "Frissítve: {{time}}"
   },
   "simulation": {
     "agentsTitle": "Szimulációs ágensek",

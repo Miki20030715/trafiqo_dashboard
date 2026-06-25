@@ -138,7 +138,17 @@
     "kindMetro": "Metro",
     "kindTram": "Tram",
     "kindBus": "Bus",
-    "kindTrolley": "Trolleybus"
+    "kindTrolley": "Trolleybus",
+    "optionsTitle": "Compare route options",
+    "optionsLive": "Live comparison · TomTom Matrix Routing",
+    "optionsModel": "Model comparison — estimated along real roads (not live)",
+    "optionDirect": "Direct route",
+    "optionVia": "Via {{via}}",
+    "optionBest": "Best",
+    "optionFastest": "Fastest",
+    "optionShortest": "Shortest",
+    "optionLeastCongested": "Least congested",
+    "optionDelay": "traffic delay"
   },
   "roles": {
     "title": "Who are you?",
@@ -339,7 +349,13 @@
     "kmh": "km/h",
     "howToRead": "Higher flow % = traffic moving closer to free speed. Ranked best (top) to worst.",
     "runningFor": "Running for {{sec}}s",
-    "collecting": "collecting data on {{count}} more roads"
+    "collecting": "collecting data on {{count}} more roads",
+    "liveTitle": "Live road speeds",
+    "liveBadge": "Live",
+    "liveSubtitle": "Major corridors ranked by current travel speed, compared in one TomTom Matrix Routing call.",
+    "modelSectionTitle": "Model simulation ranking",
+    "refresh": "Refresh",
+    "lastUpdated": "Updated at {{time}}"
   },
   "simulation": {
     "agentsTitle": "Simulation agents",

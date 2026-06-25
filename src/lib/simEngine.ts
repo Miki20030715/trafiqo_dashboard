@@ -91,6 +91,11 @@ const ROAD_LOAD: Record<string, number> = {
 }
 const DEFAULT_LOAD = 0.25
 
+/** Baseline busyness (0..1) for a named road — used by model-route congestion estimates. */
+export function roadLoad(road: string): number {
+  return ROAD_LOAD[road] ?? DEFAULT_LOAD
+}
+
 export interface Agent {
   id: string
   type: AgentTypeId

@@ -10,6 +10,7 @@ import {
   type RankedRoad,
   type CongestionLevel,
 } from '@/lib/simEngine'
+import LiveCorridorRanking from './LiveCorridorRanking'
 
 const TICK_MS = 400
 const SIM_DT = 0.6 // simulation-seconds advanced per tick
@@ -99,6 +100,12 @@ export function StatsView() {
         <FlaskConical className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
         <p className="text-xs leading-relaxed text-amber-800">{t('stats.modelNote')}</p>
       </div>
+
+      {/* Live corridor ranking via TomTom Matrix Routing (real current speeds). */}
+      <LiveCorridorRanking />
+
+      {/* Below: the model-derived simulation ranking. */}
+      <h2 className="mb-3 text-sm font-semibold text-ink">{t('stats.modelSectionTitle')}</h2>
 
       {ranked.length === 0 ? (
         <div className="rounded-2xl bg-white p-8 text-center text-sm text-ink-muted shadow-card">

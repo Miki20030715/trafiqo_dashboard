@@ -14,7 +14,9 @@ import {
   estimateTimeSaved,
 } from '@/lib/routing'
 import { planTransit } from '@/lib/transit'
+import { compareRouteOptions, type RouteComparison } from '@/lib/matrix'
 import TransitOptions from './TransitOptions'
+import RouteOptions from './RouteOptions'
 import { useEffect } from 'react'
 import { useTheme } from '@/lib/theme'
 
@@ -60,14 +62,22 @@ export function RoutesView() {
   const [originIdx, setOriginIdx] = useState<number | null>(null)
   const [destIdx, setDestIdx] = useState<number | null>(null)
   const [result, setResult] = useState<RouteResult | null>(null)
+  const [comparison, setComparison] = useState<RouteComparison | null>(null)
   const [loading, setLoading] = useState(false)
 
   async function handleCalculate() {
     if (originIdx === null || destIdx === null || originIdx === destIdx) return
     setLoading(true)
-    const r = await calculateRoute(BUDAPEST_LOCATIONS[originIdx], BUDAPEST_LOCATIONS[destIdx], mode)
+    setComparison(null)
+    const origin = BUDAPEST_LOCATIONS[originIdx]
+    const dest = BUDAPEST_LOCATIONS[destIdx]
+    const r = await calculateRoute(origin, dest, mode)
     setResult(r)
     setLoading(false)
+    // Compare alternative route options (Matrix Routing v2) in the background.
+    compareRouteOptions(origin, dest, mode)
+      .then(setComparison)
+      .catch(() => setComparison(null))
   }
 
   const timeSavedMins = result ? estimateTimeSaved(result.durationSeconds, mode) : 0
@@ -219,6 +229,9 @@ export function RoutesView() {
             )}
           </div>
         )}
+
+        {/* Route options comparison (Matrix Routing v2) */}
+        {result && comparison && <RouteOptions comparison={comparison} />}
 
         {/* Simulated public-transport itinerary (Transit mode only) */}
         {transitPlan && <TransitOptions plan={transitPlan} />}
