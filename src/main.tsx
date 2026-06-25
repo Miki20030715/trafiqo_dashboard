@@ -7,13 +7,16 @@ import App from './App'
 import { AuthProvider } from '@/auth/AuthContext'
 import { GamificationProvider } from '@/lib/gamification'
 import { ThemeProvider } from '@/lib/theme'
+import { RouteShareProvider } from '@/lib/routeShare'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
       <AuthProvider>
         <GamificationProvider>
-          <App />
+          <RouteShareProvider>
+            <App />
+          </RouteShareProvider>
         </GamificationProvider>
       </AuthProvider>
     </ThemeProvider>

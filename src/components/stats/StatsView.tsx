@@ -10,7 +10,7 @@ import {
   type RankedRoad,
   type CongestionLevel,
 } from '@/lib/simEngine'
-import LiveCorridorRanking from './LiveCorridorRanking'
+import StatsYourRoute from './StatsYourRoute'
 
 const TICK_MS = 400
 const SIM_DT = 0.6 // simulation-seconds advanced per tick
@@ -78,34 +78,31 @@ export function StatsView() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-      {/* Header */}
-      <div className="mb-2 flex flex-wrap items-center gap-3">
+      {/* Page header */}
+      <div className="mb-1">
         <h1 className="text-2xl font-bold text-ink">{t('stats.title')}</h1>
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-50 px-2 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-brand-700 ring-1 ring-brand-100">
+      </div>
+      <p className="mb-6 text-sm text-ink-muted">{t('stats.subtitle')}</p>
+
+      {/* PART 1 — Your route: real TomTom Matrix comparison of the searched trip. */}
+      <StatsYourRoute />
+
+      {/* PART 2 — City overview: model simulation of the whole city. */}
+      <div className="mb-1 flex flex-wrap items-center gap-2">
+        <Activity className="h-4 w-4 text-brand-600" />
+        <h2 className="text-sm font-semibold text-ink">{t('stats.cityOverviewTitle')}</h2>
+        <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-amber-700 ring-1 ring-amber-100">
           <FlaskConical className="h-3 w-3" />
           {t('stats.modelBadge')}
         </span>
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-green-50 px-2 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-green-700 ring-1 ring-green-100">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-          </span>
-          {t('stats.live')}
-        </span>
       </div>
-      <p className="mb-4 text-sm text-ink-muted">{t('stats.subtitle')}</p>
+      <p className="mb-3 text-xs text-ink-muted">{t('stats.cityOverviewSubtitle')}</p>
 
       {/* Model-derived disclaimer */}
       <div className="mb-6 flex items-start gap-2 rounded-xl bg-amber-50 px-4 py-3 ring-1 ring-amber-100">
         <FlaskConical className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
         <p className="text-xs leading-relaxed text-amber-800">{t('stats.modelNote')}</p>
       </div>
-
-      {/* Live corridor ranking via TomTom Matrix Routing (real current speeds). */}
-      <LiveCorridorRanking />
-
-      {/* Below: the model-derived simulation ranking. */}
-      <h2 className="mb-3 text-sm font-semibold text-ink">{t('stats.modelSectionTitle')}</h2>
 
       {ranked.length === 0 ? (
         <div className="rounded-2xl bg-white p-8 text-center text-sm text-ink-muted shadow-card">

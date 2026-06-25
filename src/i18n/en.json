@@ -341,7 +341,7 @@
   },
   "stats": {
     "title": "Which road is best?",
-    "subtitle": "A live ranking of Budapest roads by how freely traffic is flowing right now.",
+    "subtitle": "Your searched route on live TomTom traffic data, plus a simulation-based overview of the whole city.",
     "modelBadge": "Model-derived",
     "live": "Live",
     "modelNote": "These figures are computed from Trafiqo's own simulation agents as they travel — model output, not measured city data, and not a real-world prediction.",
@@ -359,12 +359,14 @@
     "howToRead": "Higher flow % = traffic moving closer to free speed. Ranked best (top) to worst.",
     "runningFor": "Running for {{sec}}s",
     "collecting": "collecting data on {{count}} more roads",
-    "liveTitle": "Live road speeds",
     "liveBadge": "Live",
-    "liveSubtitle": "Major corridors ranked by current travel speed, compared in one TomTom Matrix Routing call.",
-    "modelSectionTitle": "Model simulation ranking",
-    "refresh": "Refresh",
-    "lastUpdated": "Updated at {{time}}"
+    "liveData": "Live TomTom data",
+    "yourRouteTitle": "Your route",
+    "yourRoutePrompt": "Search a From and To in Route planning — your route's live TomTom comparison will appear here.",
+    "comparing": "Comparing route options with live traffic…",
+    "recommended": "Recommended",
+    "cityOverviewTitle": "City overview",
+    "cityOverviewSubtitle": "A simulation-based picture of the whole city (model output, not live)."
   },
   "simulation": {
     "agentsTitle": "Simulation agents",

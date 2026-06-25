@@ -341,7 +341,7 @@
   },
   "stats": {
     "title": "Melyik út a legjobb?",
-    "subtitle": "Budapesti utak élő rangsora aszerint, hogy éppen mennyire gördülékeny rajtuk a forgalom.",
+    "subtitle": "A keresett útvonala élő TomTom forgalmi adatokon, plusz szimuláció alapú áttekintés a teljes városról.",
     "modelBadge": "Modellből származó",
     "live": "Élő",
     "modelNote": "Ezek az értékek a Trafiqo saját szimulációs ágenseinek mozgásából számolódnak — modell-eredmény, nem mért városi adat, és nem valós előrejelzés.",
@@ -359,12 +359,14 @@
     "howToRead": "Magasabb áramlás % = a forgalom közelebb halad a szabad sebességhez. Legjobb (felül) a legrosszabbig rangsorolva.",
     "runningFor": "Fut {{sec}} mp-e",
     "collecting": "még {{count}} útról gyűjt adatot",
-    "liveTitle": "Élő útsebességek",
     "liveBadge": "Élő",
-    "liveSubtitle": "Fő közlekedési folyosók a jelenlegi haladási sebesség szerint rangsorolva, egyetlen TomTom Matrix Routing hívásban összevetve.",
-    "modelSectionTitle": "Modellszimulációs rangsor",
-    "refresh": "Frissítés",
-    "lastUpdated": "Frissítve: {{time}}"
+    "liveData": "Élő TomTom adat",
+    "yourRouteTitle": "Az Ön útvonala",
+    "yourRoutePrompt": "Adjon meg honnan–hová az Útvonaltervezésben — itt jelenik meg az útvonal élő TomTom összevetése.",
+    "comparing": "Útvonal-lehetőségek összevetése élő forgalommal…",
+    "recommended": "Ajánlott",
+    "cityOverviewTitle": "Városi áttekintés",
+    "cityOverviewSubtitle": "Szimuláció alapú kép a teljes városról (modell-eredmény, nem élő)."
   },
   "simulation": {
     "agentsTitle": "Szimulációs ágensek",

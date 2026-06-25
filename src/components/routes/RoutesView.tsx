@@ -19,6 +19,7 @@ import RouteOptions from './RouteOptions'
 import PlaceSearchInput, { type SelectedPlace } from './PlaceSearchInput'
 import { useEffect } from 'react'
 import { useTheme } from '@/lib/theme'
+import { useRouteShare } from '@/lib/routeShare'
 
 /** Convert a searched place into the RoutePoint the routing/transit/matrix libs expect. */
 function toRoutePoint(p: SelectedPlace): RoutePoint {
@@ -61,6 +62,7 @@ function RouteMapInner({ result, origin, dest }: { result: RouteResult; origin: 
 export function RoutesView() {
   const { t, i18n } = useTranslation()
   const { isDark } = useTheme()
+  const { setRoute } = useRouteShare()
   const basemap = isDark ? 'dark_all' : 'light_all'
   const lang = i18n.language
   const [mode, setMode] = useState<TravelMode>('car')
@@ -79,6 +81,8 @@ export function RoutesView() {
     const r = await calculateRoute(origin, dest, mode)
     setResult(r)
     setLoading(false)
+    // Share the searched route so Road stats can show a live "Your route" comparison.
+    setRoute({ origin, dest, mode })
     // Compare alternative route options (Matrix Routing v2) in the background.
     compareRouteOptions(origin, dest, mode)
       .then(setComparison)
