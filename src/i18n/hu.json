@@ -125,6 +125,8 @@
     "km": "km",
     "selectOrigin": "Válasszon kiindulópontot",
     "selectDest": "Válasszon célállomást",
+    "searchPlaceholder": "Keressen bármilyen budapesti helyet…",
+    "noResults": "Nincs találat.",
     "transitTitle": "Tömegközlekedési lehetőségek (szimulált)",
     "transitNote": "Szemléltető tömegközlekedési terv — modell alapú, nem valós BKK-menetrend vagy élő adat.",
     "transitNoTransfer": "Közvetlen — átszállás nélkül",

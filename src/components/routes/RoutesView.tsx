@@ -7,7 +7,6 @@ import {
   type TravelMode,
   type RoutePoint,
   type RouteResult,
-  BUDAPEST_LOCATIONS,
   calculateRoute,
   formatDuration,
   formatDistance,
@@ -17,8 +16,14 @@ import { planTransit } from '@/lib/transit'
 import { compareRouteOptions, type RouteComparison } from '@/lib/matrix'
 import TransitOptions from './TransitOptions'
 import RouteOptions from './RouteOptions'
+import PlaceSearchInput, { type SelectedPlace } from './PlaceSearchInput'
 import { useEffect } from 'react'
 import { useTheme } from '@/lib/theme'
+
+/** Convert a searched place into the RoutePoint the routing/transit/matrix libs expect. */
+function toRoutePoint(p: SelectedPlace): RoutePoint {
+  return { lat: p.lat, lon: p.lon, name: p.name, nameHu: p.name }
+}
 
 const MODE_CONFIG: { mode: TravelMode; icon: typeof Car; labelKey: string }[] = [
   { mode: 'car', icon: Car, labelKey: 'routes.modeCar' },
@@ -59,18 +64,18 @@ export function RoutesView() {
   const basemap = isDark ? 'dark_all' : 'light_all'
   const lang = i18n.language
   const [mode, setMode] = useState<TravelMode>('car')
-  const [originIdx, setOriginIdx] = useState<number | null>(null)
-  const [destIdx, setDestIdx] = useState<number | null>(null)
+  const [origin, setOrigin] = useState<RoutePoint | null>(null)
+  const [dest, setDest] = useState<RoutePoint | null>(null)
   const [result, setResult] = useState<RouteResult | null>(null)
   const [comparison, setComparison] = useState<RouteComparison | null>(null)
   const [loading, setLoading] = useState(false)
 
+  const canCalculate = origin !== null && dest !== null
+
   async function handleCalculate() {
-    if (originIdx === null || destIdx === null || originIdx === destIdx) return
+    if (!origin || !dest) return
     setLoading(true)
     setComparison(null)
-    const origin = BUDAPEST_LOCATIONS[originIdx]
-    const dest = BUDAPEST_LOCATIONS[destIdx]
     const r = await calculateRoute(origin, dest, mode)
     setResult(r)
     setLoading(false)
@@ -85,9 +90,9 @@ export function RoutesView() {
   // Simulated transit itinerary, shown only in Transit mode. Memoised so it stays
   // stable while the same route is displayed.
   const transitPlan = useMemo(() => {
-    if (!result || mode !== 'transit' || originIdx === null || destIdx === null) return null
-    return planTransit(BUDAPEST_LOCATIONS[originIdx], BUDAPEST_LOCATIONS[destIdx], result.durationSeconds)
-  }, [result, mode, originIdx, destIdx])
+    if (!result || mode !== 'transit' || !origin || !dest) return null
+    return planTransit(origin, dest, result.durationSeconds)
+  }, [result, mode, origin, dest])
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row">
@@ -117,46 +122,34 @@ export function RoutesView() {
           </div>
         </div>
 
-        {/* Origin */}
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-ink">
-            <MapPin className="mr-1 inline h-4 w-4 text-green-500" />
-            {t('routes.origin')}
-          </label>
-          <select
-            value={originIdx ?? ''}
-            onChange={(e) => { setOriginIdx(e.target.value ? Number(e.target.value) : null); setResult(null) }}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-ink focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
-          >
-            <option value="">{t('routes.selectOrigin')}</option>
-            {BUDAPEST_LOCATIONS.map((loc, i) => (
-              <option key={i} value={i}>{lang === 'hu' ? loc.nameHu : loc.name}</option>
-            ))}
-          </select>
-        </div>
+        {/* Origin — free-text place search */}
+        <PlaceSearchInput
+          label={t('routes.origin')}
+          pinColor="text-green-500"
+          placeholder={t('routes.searchPlaceholder')}
+          onSelect={(p) => {
+            setOrigin(p ? toRoutePoint(p) : null)
+            setResult(null)
+            setComparison(null)
+          }}
+        />
 
-        {/* Destination */}
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-ink">
-            <MapPin className="mr-1 inline h-4 w-4 text-red-500" />
-            {t('routes.destination')}
-          </label>
-          <select
-            value={destIdx ?? ''}
-            onChange={(e) => { setDestIdx(e.target.value ? Number(e.target.value) : null); setResult(null) }}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-ink focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
-          >
-            <option value="">{t('routes.selectDest')}</option>
-            {BUDAPEST_LOCATIONS.map((loc, i) => (
-              <option key={i} value={i}>{lang === 'hu' ? loc.nameHu : loc.name}</option>
-            ))}
-          </select>
-        </div>
+        {/* Destination — free-text place search */}
+        <PlaceSearchInput
+          label={t('routes.destination')}
+          pinColor="text-red-500"
+          placeholder={t('routes.searchPlaceholder')}
+          onSelect={(p) => {
+            setDest(p ? toRoutePoint(p) : null)
+            setResult(null)
+            setComparison(null)
+          }}
+        />
 
         <button
           type="button"
           onClick={handleCalculate}
-          disabled={originIdx === null || destIdx === null || originIdx === destIdx || loading}
+          disabled={!canCalculate || loading}
           className="rounded-xl bg-brand-500 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-600 disabled:opacity-40"
         >
           {loading ? t('routes.calculating') : t('routes.calculate')}
@@ -257,12 +250,8 @@ export function RoutesView() {
             subdomains="abcd"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
-          {result && originIdx !== null && destIdx !== null && (
-            <RouteMapInner
-              result={result}
-              origin={BUDAPEST_LOCATIONS[originIdx]}
-              dest={BUDAPEST_LOCATIONS[destIdx]}
-            />
+          {result && origin && dest && (
+            <RouteMapInner result={result} origin={origin} dest={dest} />
           )}
         </MapContainer>
       </div>

@@ -125,6 +125,8 @@
     "km": "km",
     "selectOrigin": "Select starting point",
     "selectDest": "Select destination",
+    "searchPlaceholder": "Search any place in Budapest…",
+    "noResults": "No matching places found.",
     "transitTitle": "Transit options (simulated)",
     "transitNote": "Illustrative public-transport plan — model-based, not real BKK timetables or live schedules.",
     "transitNoTransfer": "Direct — no transfers",
