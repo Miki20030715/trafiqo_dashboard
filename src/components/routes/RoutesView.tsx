@@ -195,9 +195,26 @@ export function RoutesView() {
                 {t('routes.liveRoute')}
               </div>
             ) : (
-              <div className="mt-2 flex items-center gap-1.5 text-xs text-ink-muted">
-                <FlaskConical className="h-3 w-3" />
-                {t('routes.modelRoute')}
+              <div className="mt-2 flex flex-col gap-1">
+                <div className="flex items-center gap-1.5 text-xs text-ink-muted">
+                  <FlaskConical className="h-3 w-3" />
+                  {t('routes.modelRoute')}
+                </div>
+                {/* When a live key exists but the TomTom call failed, show the exact reason. */}
+                {result.error && (
+                  <div className="rounded-lg bg-red-50 px-2.5 py-1.5 text-[0.7rem] leading-snug text-red-700">
+                    <span className="font-semibold">
+                      {t('routes.liveFailed')}
+                      {result.error.status ? ` (HTTP ${result.error.status})` : ''}:
+                    </span>{' '}
+                    <span className="break-words">{result.error.message}</span>
+                    <span className="mt-0.5 block text-red-600/80">
+                      {result.error.network
+                        ? t('routes.liveFailedNetworkHint')
+                        : t('routes.liveFailedHttpHint')}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
           </div>

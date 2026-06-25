@@ -26,12 +26,24 @@ export interface RoutePoint {
 /** Where the route geometry came from. */
 export type RouteSource = 'tomtom' | 'model'
 
+/** Captured when a live TomTom attempt was made but failed, so the UI/console can show why. */
+export interface RouteError {
+  /** HTTP status, when the request reached TomTom (e.g. 403). Absent for CORS/network failures. */
+  status?: number
+  /** TomTom's error message, or the JS error text (e.g. "Failed to fetch") for CORS/network. */
+  message: string
+  /** True when fetch() threw before a response (typically CORS or a network/DNS block). */
+  network?: boolean
+}
+
 export interface RouteResult {
   durationSeconds: number
   distanceMeters: number
   points: [number, number][]
   /** 'tomtom' = live road routing with traffic; 'model' = estimated along the road graph. */
   source: RouteSource
+  /** Present only when a live key existed but the TomTom call failed (diagnostic). */
+  error?: RouteError
 }
 
 export const BUDAPEST_LOCATIONS: RoutePoint[] = [
@@ -76,15 +88,51 @@ export async function calculateRoute(
             source: 'tomtom',
           }
         }
-        console.warn('[routing] TomTom response had no usable route; using model fallback.')
+        const msg = 'TomTom returned 200 but no usable route geometry.'
+        console.warn('[routing]', msg)
+        return buildModelRoute(origin, destination, mode, { status: res.status, message: msg })
       } else {
-        console.warn(`[routing] TomTom routing returned ${res.status}; using model fallback.`)
+        // Read TomTom's error body — it carries the actionable message (e.g. domain/quota).
+        const body = await res.text().catch(() => '')
+        const ttMessage = extractTomTomMessage(body)
+        console.error(
+          `[routing] TomTom Routing API ${res.status} ${res.statusText}. ${ttMessage}`,
+          body.slice(0, 500),
+        )
+        return buildModelRoute(origin, destination, mode, {
+          status: res.status,
+          message: ttMessage || `${res.status} ${res.statusText}`,
+        })
       }
     } catch (err) {
-      console.warn('[routing] TomTom routing request failed; using model fallback.', err)
+      // fetch() throws (no readable status) on CORS rejection or a network/DNS block.
+      // For a referrer-restricted TomTom key, the 403 often lacks CORS headers and
+      // surfaces here as "Failed to fetch" — i.e. the domain restriction is rejecting it.
+      const message = err instanceof Error ? err.message : String(err)
+      console.error(
+        `[routing] TomTom Routing request failed before a response (likely CORS / domain ` +
+          `restriction / network): ${message}`,
+      )
+      return buildModelRoute(origin, destination, mode, { message, network: true })
     }
   }
   return buildModelRoute(origin, destination, mode)
+}
+
+/** Pull a human-readable message out of a TomTom JSON or text error body. */
+function extractTomTomMessage(body: string): string {
+  try {
+    const j = JSON.parse(body)
+    return (
+      j?.detailedError?.message ||
+      j?.error?.description ||
+      j?.errorText ||
+      j?.message ||
+      ''
+    )
+  } catch {
+    return body.slice(0, 200)
+  }
 }
 
 /** Free-flow speeds (km/h) used to estimate duration for the model route. */
@@ -102,7 +150,12 @@ const MODEL_SPEED_KMH: Record<TravelMode, number> = {
  * (crossing the river only on bridges), and stitch short connectors at each end.
  * Distance is measured along the polyline; duration uses a mode-specific speed.
  */
-function buildModelRoute(origin: RoutePoint, destination: RoutePoint, mode: TravelMode): RouteResult {
+function buildModelRoute(
+  origin: RoutePoint,
+  destination: RoutePoint,
+  mode: TravelMode,
+  error?: RouteError,
+): RouteResult {
   const startNode = nearestNodeId(origin.lat, origin.lon)
   const endNode = nearestNodeId(destination.lat, destination.lon)
   const nodePath = shortestPath(startNode, endNode) ?? [startNode, endNode]
@@ -121,7 +174,7 @@ function buildModelRoute(origin: RoutePoint, destination: RoutePoint, mode: Trav
   distanceMeters = Math.round(distanceMeters)
 
   const durationSeconds = Math.round((distanceMeters / 1000 / MODEL_SPEED_KMH[mode]) * 3600)
-  return { durationSeconds, distanceMeters, points, source: 'model' }
+  return { durationSeconds, distanceMeters, points, source: 'model', error }
 }
 
 export function formatDuration(seconds: number, lang: string): string {
