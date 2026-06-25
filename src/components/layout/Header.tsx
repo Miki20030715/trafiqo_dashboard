@@ -51,7 +51,7 @@ export function Header({ activeView, onNavigate, points = 0 }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-[1100] border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="flex h-16 items-center gap-3 px-4 sm:px-6">
         {/* Logo → home */}
         <button
@@ -112,7 +112,7 @@ export function Header({ activeView, onNavigate, points = 0 }: HeaderProps) {
             </button>
 
             {userOpen && (
-              <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card-hover">
+              <div className="absolute right-0 z-[1200] mt-2 w-56 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card-hover">
                 <div className="border-b border-slate-100 px-4 py-3">
                   <p className="truncate text-sm font-semibold text-ink">{user?.name}</p>
                   <p className="truncate text-xs text-ink-muted">{user?.email}</p>

@@ -22,7 +22,7 @@ export function MapView() {
   }, [fullscreen])
 
   const containerCls = fullscreen
-    ? 'fixed inset-0 z-[60] bg-white'
+    ? 'fixed inset-0 z-[1200] bg-white'
     : 'relative flex-1 min-h-[60vh]'
 
   return (

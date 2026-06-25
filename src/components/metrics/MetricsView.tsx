@@ -42,12 +42,20 @@ const DATA: Record<string, { timeSaved: string; moneySaved: string; greenScore: 
   },
 }
 
+const PERIOD_PHRASE: Record<string, string> = {
+  'metrics.today': 'metrics.periodToday',
+  'metrics.thisWeek': 'metrics.periodWeek',
+  'metrics.allTime': 'metrics.periodAllTime',
+}
+
 export function MetricsView() {
   const { t } = useTranslation()
   const [period, setPeriod] = useState<keyof typeof DATA>('metrics.today')
   const [advanced, setAdvanced] = useState(false)
 
   const d = DATA[period]
+  // Lower-case phrase ("today" / "this week" / "all-time") appended to period KPI labels.
+  const periodPhrase = t(PERIOD_PHRASE[period])
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
@@ -89,16 +97,16 @@ export function MetricsView() {
           icon={Clock}
           iconColor="text-brand-600"
           iconBg="bg-brand-50"
-          label={t('metrics.timeSaved')}
+          label={`${t('metrics.timeSaved')} ${periodPhrase}`}
           value={d.timeSaved}
           unit={t('metrics.minutes')}
-          sub={`+${Math.round(Number(d.timeSaved.replace(' ', '')) * 0.12)} ${t('metrics.minutes')} vs last period`}
+          sub={`+${Math.round(Number(d.timeSaved.replace(' ', '')) * 0.12)} ${t('metrics.minutes')} ${t('metrics.vsLastPeriod')}`}
         />
         <KpiCard
           icon={DollarSign}
           iconColor="text-amber-600"
           iconBg="bg-amber-50"
-          label={t('metrics.moneySaved')}
+          label={`${t('metrics.moneySaved')} ${periodPhrase}`}
           value={d.moneySaved}
           unit={t('metrics.huf')}
         />
@@ -106,10 +114,10 @@ export function MetricsView() {
           icon={Leaf}
           iconColor="text-green-600"
           iconBg="bg-green-50"
-          label={t('metrics.greenScore')}
+          label={`${t('metrics.greenScore')} ${periodPhrase}`}
           value={d.greenScore}
           unit="/ 100"
-          sub={Number(d.greenScore) >= 70 ? '✓ Above city average' : '↗ Improving'}
+          sub={Number(d.greenScore) >= 70 ? `✓ ${t('metrics.aboveAvg')}` : `↗ ${t('metrics.improving')}`}
         />
       </div>
 
@@ -145,7 +153,7 @@ export function MetricsView() {
           <div className="mt-3 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-card">
             <AlertTriangle className="h-5 w-5 shrink-0 text-amber-500" />
             <div>
-              <p className="text-sm font-semibold text-ink">{d.congestion} events</p>
+              <p className="text-sm font-semibold text-ink">{d.congestion} {t('metrics.eventsWord')}</p>
               <p className="text-xs text-ink-muted">{t('metrics.congestionAvoided')}</p>
             </div>
             <ChevronRight className="ml-auto h-4 w-4 text-ink-muted" />
