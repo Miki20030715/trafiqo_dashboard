@@ -15,25 +15,12 @@
       rel="stylesheet"
     />
     <title>Trafiqo — Smarter choices. Smoother cities.</title>
-    <script>
-      // Apply the saved/system theme before paint to avoid a flash of the wrong theme.
-      (function () {
-        try {
-          var saved = localStorage.getItem('trafiqo.theme')
-          var dark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
-          if (dark) {
-            document.documentElement.classList.add('dark')
-            document.documentElement.style.colorScheme = 'dark'
-          }
-        } catch (e) {}
-      })()
-    </script>
-    <script type="module" crossorigin src="/trafiqo_dashboard/assets/index-B4xQsRAn.js"></script>
+    <script type="module" crossorigin src="/trafiqo_dashboard/assets/index-DBSnZf2t.js"></script>
     <link rel="modulepreload" crossorigin href="/trafiqo_dashboard/assets/i18n-Ddm7AJEk.js">
     <link rel="modulepreload" crossorigin href="/trafiqo_dashboard/assets/leaflet-pSEhqMEU.js">
     <link rel="modulepreload" crossorigin href="/trafiqo_dashboard/assets/supabase-Be25SE7n.js">
-    <link rel="modulepreload" crossorigin href="/trafiqo_dashboard/assets/charts-Ws63pIKL.js">
-    <link rel="stylesheet" crossorigin href="/trafiqo_dashboard/assets/index-CvuOce7I.css">
+    <link rel="modulepreload" crossorigin href="/trafiqo_dashboard/assets/charts-UXmxeF23.js">
+    <link rel="stylesheet" crossorigin href="/trafiqo_dashboard/assets/index-DrE1b0T6.css">
   </head>
   <body>
     <div id="root"></div>
