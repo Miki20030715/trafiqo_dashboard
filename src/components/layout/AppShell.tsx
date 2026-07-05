@@ -4,6 +4,7 @@ import Footer from './Footer'
 import MapView from '@/components/map/MapView'
 import RoutesView from '@/components/routes/RoutesView'
 import RolesView from '@/components/roles/RolesView'
+import BehaviorPredictionPanel from '@/components/behavior/BehaviorPredictionPanel'
 import MetricsView from '@/components/metrics/MetricsView'
 import RewardsView from '@/components/rewards/RewardsView'
 import ProfileView from '@/components/profile/ProfileView'
@@ -27,6 +28,7 @@ export function AppShell() {
     switch (view) {
       case 'routes': return <RoutesView />
       case 'roles': return <RolesView initialRole={profile.role} onRoleChange={(r) => updateProfile({ role: r })} />
+      case 'behavior': return <BehaviorPredictionPanel initialRole={profile.role} onRoleChange={(r) => updateProfile({ role: r })} />
       case 'metrics': return <MetricsView />
       case 'rewards': return <RewardsView />
       case 'profile': return <ProfileView />

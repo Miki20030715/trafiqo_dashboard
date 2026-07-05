@@ -5,6 +5,7 @@ export type AppView =
   | 'map'
   | 'routes'
   | 'roles'
+  | 'behavior'
   | 'metrics'
   | 'rewards'
   | 'profile'
@@ -16,6 +17,7 @@ export const PRIMARY_NAV: { view: AppView; labelKey: string }[] = [
   { view: 'map', labelKey: 'nav.map' },
   { view: 'routes', labelKey: 'nav.routes' },
   { view: 'roles', labelKey: 'nav.roles' },
+  { view: 'behavior', labelKey: 'nav.behavior' },
   { view: 'metrics', labelKey: 'nav.metrics' },
   { view: 'rewards', labelKey: 'nav.rewards' },
   { view: 'trust', labelKey: 'nav.trust' },
