@@ -62,6 +62,7 @@
     "roles": "Ki Ön?",
     "behavior": "Viselkedés",
     "metrics": "Mérőszámok",
+    "stats": "Út-statisztika",
     "rewards": "Jutalmak",
     "profile": "Profil",
     "cityControl": "Városi vezérlőközpont",
@@ -227,6 +228,35 @@
     "pts": "pt",
     "kmh": "km/h"
   },
+  "stats": {
+    "title": "Melyik út a legjobb?",
+    "subtitle": "Élő, szimuláció alapú kép arról, hogy éppen melyik budapesti utak áramlanak a legjobban és a legrosszabbul — a Trafiqo modell-ágenseinek mozgásából számolva.",
+    "modelBadge": "Modellből származó",
+    "live": "Élő",
+    "modelNote": "Ezek az értékek a Trafiqo saját szimulációs ágenseinek mozgásából számolódnak — modell-eredmény, nem mért városi adat, és nem valós előrejelzés.",
+    "noData": "Várakozás az első utakra, hogy adat keletkezzen…",
+    "bestNow": "Most a legjobb",
+    "worstNow": "Most a legtorlódottabb",
+    "flow": "Forgalom áramlása",
+    "avgSpeed": "Átl. sebesség",
+    "road": "Út",
+    "bridge": "híd",
+    "free": "Szabad",
+    "moderate": "Lassuló",
+    "heavy": "Torlódás",
+    "kmh": "km/h",
+    "howToRead": "Magasabb áramlás % = a forgalom közelebb halad a szabad sebességhez. Legjobb (felül) a legrosszabbig rangsorolva.",
+    "runningFor": "Fut {{sec}} mp-e",
+    "collecting": "még {{count}} útról gyűjt adatot",
+    "liveBadge": "Élő",
+    "liveData": "Élő TomTom adat",
+    "yourRouteTitle": "Az Ön útvonala",
+    "yourRoutePrompt": "Adjon meg honnan–hová az Útvonaltervezésben — itt jelenik meg az útvonal élő TomTom összevetése.",
+    "comparing": "Útvonal-lehetőségek összevetése élő forgalommal…",
+    "recommended": "Ajánlott",
+    "cityOverviewTitle": "Városi áttekintés",
+    "cityOverviewSubtitle": "Szimuláció alapú kép a teljes városról (modell-eredmény, nem élő)."
+  },
   "rewards": {
     "title": "Jutalmak",
     "points": "pont",
@@ -353,6 +383,8 @@
     "toggle": "Ágensek mutatása",
     "pedestrianLabel": "Gyalogos",
     "animalLabel": "Állat",
-    "syntheticNote": "Szintetikus modell ágensek — nem valódi emberek vagy állatok"
+    "syntheticNote": "Szintetikus modell ágens — nem valódi személy vagy jármű",
+    "onRoad": "itt: {{road}}",
+    "roadNote": "Az ágensek az úthálózatot követik, és a folyón csak hidakon kelnek át."
   }
 }

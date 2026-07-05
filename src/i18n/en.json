@@ -62,6 +62,7 @@
     "roles": "Who are you?",
     "behavior": "Behaviour",
     "metrics": "Metrics",
+    "stats": "Road stats",
     "rewards": "Rewards",
     "profile": "Profile",
     "cityControl": "City Control Center",
@@ -227,6 +228,35 @@
     "pts": "pts",
     "kmh": "km/h"
   },
+  "stats": {
+    "title": "Which road is best?",
+    "subtitle": "A live, simulation-based view of which Budapest roads are flowing best and worst right now — computed from Trafiqo's model agents as they travel.",
+    "modelBadge": "Model-derived",
+    "live": "Live",
+    "modelNote": "These figures are computed from Trafiqo's own simulation agents as they travel — model output, not measured city data, and not a real-world prediction.",
+    "noData": "Waiting for the first journeys to generate data…",
+    "bestNow": "Best to travel now",
+    "worstNow": "Most congested now",
+    "flow": "Traffic flow",
+    "avgSpeed": "Avg. speed",
+    "road": "Road",
+    "bridge": "bridge",
+    "free": "Free-flowing",
+    "moderate": "Slowing",
+    "heavy": "Congested",
+    "kmh": "km/h",
+    "howToRead": "Higher flow % = traffic moving closer to free speed. Ranked best (top) to worst.",
+    "runningFor": "Running for {{sec}}s",
+    "collecting": "collecting data on {{count}} more roads",
+    "liveBadge": "Live",
+    "liveData": "Live TomTom data",
+    "yourRouteTitle": "Your route",
+    "yourRoutePrompt": "Search a From and To in Route planning — your route's live TomTom comparison will appear here.",
+    "comparing": "Comparing route options with live traffic…",
+    "recommended": "Recommended",
+    "cityOverviewTitle": "City overview",
+    "cityOverviewSubtitle": "A simulation-based picture of the whole city (model output, not live)."
+  },
   "rewards": {
     "title": "Rewards",
     "points": "points",
@@ -353,6 +383,8 @@
     "toggle": "Show agents",
     "pedestrianLabel": "Pedestrian",
     "animalLabel": "Animal",
-    "syntheticNote": "Synthetic model agents — not real people or animals"
+    "syntheticNote": "Synthetic model agent — not a real person or vehicle",
+    "onRoad": "on {{road}}",
+    "roadNote": "Agents follow the road network and cross the river only on bridges."
   }
 }
