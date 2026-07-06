@@ -6,6 +6,7 @@ import RoutesView from '@/components/routes/RoutesView'
 import RolesView from '@/components/roles/RolesView'
 import BehaviorPredictionPanel from '@/components/behavior/BehaviorPredictionPanel'
 import MetricsView from '@/components/metrics/MetricsView'
+import StatsView from '@/components/stats/StatsView'
 import RewardsView from '@/components/rewards/RewardsView'
 import ProfileView from '@/components/profile/ProfileView'
 import CityControlView from '@/components/citycontrol/CityControlView'
@@ -30,6 +31,7 @@ export function AppShell() {
       case 'roles': return <RolesView initialRole={profile.role} onRoleChange={(r) => updateProfile({ role: r })} />
       case 'behavior': return <BehaviorPredictionPanel initialRole={profile.role} onRoleChange={(r) => updateProfile({ role: r })} />
       case 'metrics': return <MetricsView />
+      case 'stats': return <StatsView />
       case 'rewards': return <RewardsView />
       case 'profile': return <ProfileView />
       case 'cityControl': return <CityControlView />

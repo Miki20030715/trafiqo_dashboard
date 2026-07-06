@@ -7,6 +7,7 @@ export type AppView =
   | 'roles'
   | 'behavior'
   | 'metrics'
+  | 'stats'
   | 'rewards'
   | 'profile'
   | 'cityControl'
@@ -19,6 +20,7 @@ export const PRIMARY_NAV: { view: AppView; labelKey: string }[] = [
   { view: 'roles', labelKey: 'nav.roles' },
   { view: 'behavior', labelKey: 'nav.behavior' },
   { view: 'metrics', labelKey: 'nav.metrics' },
+  { view: 'stats', labelKey: 'nav.stats' },
   { view: 'rewards', labelKey: 'nav.rewards' },
   { view: 'trust', labelKey: 'nav.trust' },
 ]
