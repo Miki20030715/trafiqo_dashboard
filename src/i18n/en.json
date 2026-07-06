@@ -106,6 +106,8 @@
     "modeWalk": "Walk",
     "origin": "From",
     "destination": "To",
+    "searchPlaceholder": "Search any place in Budapest…",
+    "noResults": "No matching places found.",
     "calculate": "Calculate route",
     "calculating": "Calculating…",
     "duration": "Duration",

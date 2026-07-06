@@ -106,6 +106,8 @@
     "modeWalk": "Gyalog",
     "origin": "Honnan",
     "destination": "Hová",
+    "searchPlaceholder": "Keressen bármilyen budapesti helyet…",
+    "noResults": "Nincs találat.",
     "calculate": "Útvonal kiszámítása",
     "calculating": "Számítás…",
     "duration": "Menetidő",

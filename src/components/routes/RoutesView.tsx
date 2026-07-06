@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapContainer, TileLayer, Polyline, Marker, useMap } from 'react-leaflet'
 import L from 'leaflet'
@@ -7,13 +7,12 @@ import {
   type TravelMode,
   type RoutePoint,
   type RouteResult,
-  BUDAPEST_LOCATIONS,
   calculateRoute,
   formatDuration,
   formatDistance,
   estimateTimeSaved,
 } from '@/lib/routing'
-import { useEffect } from 'react'
+import PlaceSearchInput, { type SelectedPlace } from './PlaceSearchInput'
 
 const MODE_CONFIG: { mode: TravelMode; icon: typeof Car; labelKey: string }[] = [
   { mode: 'car', icon: Car, labelKey: 'routes.modeCar' },
@@ -32,7 +31,7 @@ function createPinIcon(color: string) {
   })
 }
 
-function RouteMapInner({ result, origin, dest }: { result: RouteResult; origin: RoutePoint; dest: RoutePoint }) {
+function RouteMapInner({ result, origin, dest }: { result: RouteResult; origin: { lat: number; lon: number }; dest: { lat: number; lon: number } }) {
   const map = useMap()
   useEffect(() => {
     if (result.points.length > 0) {
@@ -52,15 +51,20 @@ export function RoutesView() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
   const [mode, setMode] = useState<TravelMode>('car')
-  const [originIdx, setOriginIdx] = useState<number | null>(null)
-  const [destIdx, setDestIdx] = useState<number | null>(null)
+  const [origin, setOrigin] = useState<SelectedPlace | null>(null)
+  const [dest, setDest] = useState<SelectedPlace | null>(null)
   const [result, setResult] = useState<RouteResult | null>(null)
   const [loading, setLoading] = useState(false)
 
+  /** A chosen place → the RoutePoint shape the routing lib expects. */
+  function toRoutePoint(p: SelectedPlace): RoutePoint {
+    return { lat: p.lat, lon: p.lon, name: p.name, nameHu: p.name }
+  }
+
   async function handleCalculate() {
-    if (originIdx === null || destIdx === null || originIdx === destIdx) return
+    if (!origin || !dest) return
     setLoading(true)
-    const r = await calculateRoute(BUDAPEST_LOCATIONS[originIdx], BUDAPEST_LOCATIONS[destIdx], mode)
+    const r = await calculateRoute(toRoutePoint(origin), toRoutePoint(dest), mode)
     setResult(r)
     setLoading(false)
   }
@@ -95,46 +99,26 @@ export function RoutesView() {
           </div>
         </div>
 
-        {/* Origin */}
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-ink">
-            <MapPin className="mr-1 inline h-4 w-4 text-green-500" />
-            {t('routes.origin')}
-          </label>
-          <select
-            value={originIdx ?? ''}
-            onChange={(e) => { setOriginIdx(e.target.value ? Number(e.target.value) : null); setResult(null) }}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-ink focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
-          >
-            <option value="">{t('routes.selectOrigin')}</option>
-            {BUDAPEST_LOCATIONS.map((loc, i) => (
-              <option key={i} value={i}>{lang === 'hu' ? loc.nameHu : loc.name}</option>
-            ))}
-          </select>
-        </div>
+        {/* Origin — free-text search (TomTom Search API) */}
+        <PlaceSearchInput
+          label={t('routes.origin')}
+          pinColor="text-green-500"
+          placeholder={t('routes.searchPlaceholder')}
+          onSelect={(p) => { setOrigin(p); setResult(null) }}
+        />
 
-        {/* Destination */}
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-ink">
-            <MapPin className="mr-1 inline h-4 w-4 text-red-500" />
-            {t('routes.destination')}
-          </label>
-          <select
-            value={destIdx ?? ''}
-            onChange={(e) => { setDestIdx(e.target.value ? Number(e.target.value) : null); setResult(null) }}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-ink focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
-          >
-            <option value="">{t('routes.selectDest')}</option>
-            {BUDAPEST_LOCATIONS.map((loc, i) => (
-              <option key={i} value={i}>{lang === 'hu' ? loc.nameHu : loc.name}</option>
-            ))}
-          </select>
-        </div>
+        {/* Destination — free-text search (TomTom Search API) */}
+        <PlaceSearchInput
+          label={t('routes.destination')}
+          pinColor="text-red-500"
+          placeholder={t('routes.searchPlaceholder')}
+          onSelect={(p) => { setDest(p); setResult(null) }}
+        />
 
         <button
           type="button"
           onClick={handleCalculate}
-          disabled={originIdx === null || destIdx === null || originIdx === destIdx || loading}
+          disabled={!origin || !dest || loading}
           className="rounded-xl bg-brand-500 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-600 disabled:opacity-40"
         >
           {loading ? t('routes.calculating') : t('routes.calculate')}
@@ -203,12 +187,8 @@ export function RoutesView() {
             subdomains="abcd"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
-          {result && originIdx !== null && destIdx !== null && (
-            <RouteMapInner
-              result={result}
-              origin={BUDAPEST_LOCATIONS[originIdx]}
-              dest={BUDAPEST_LOCATIONS[destIdx]}
-            />
+          {result && origin && dest && (
+            <RouteMapInner result={result} origin={origin} dest={dest} />
           )}
         </MapContainer>
       </div>
